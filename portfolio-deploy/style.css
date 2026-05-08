@@ -45,6 +45,39 @@ body {
   transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+/* Mobile Responsive - Loading Screen */
+@media (max-width: 768px) {
+  .loading-content {
+    padding: 30px 40px;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .loading-title {
+    font-size: 1.3rem !important;
+    letter-spacing: 2px !important;
+  }
+
+  .loading-progress-wrapper {
+    max-width: 280px !important;
+  }
+
+  #loading-text {
+    font-size: 0.8rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-content {
+    padding: 20px 30px;
+  }
+
+  .loading-title {
+    font-size: 1.1rem !important;
+    letter-spacing: 1px !important;
+  }
+}
+
 .loading-title {
   margin: 0;
   font-size: 1.8rem;
@@ -120,6 +153,17 @@ body {
   text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
 
+/* Mobile Responsive - Arcade Hint */
+@media (max-width: 768px) {
+  #arcade-hint {
+    top: 10px;
+    padding: 8px 15px;
+    font-size: 0.75rem;
+    max-width: 90%;
+    text-align: center;
+  }
+}
+
 /* Arcade Overlay */
 #arcade-overlay {
   position: fixed;
@@ -134,13 +178,15 @@ body {
   justify-content: center;
   align-items: center;
   opacity: 0;
-  pointer-events: none; /* Initially ignores clicks */
+  pointer-events: none;
+  /* Initially ignores clicks */
   transition: opacity 0.3s ease;
 }
 
 #arcade-overlay.active {
   opacity: 1;
-  pointer-events: all; /* Blocks clicks from reaching 3D scene */
+  pointer-events: all;
+  /* Blocks clicks from reaching 3D scene */
 }
 
 .arcade-content {
@@ -191,7 +237,8 @@ body {
 }
 
 #arcade-container {
-  outline: none; /* remove focus ring */
+  outline: none;
+  /* remove focus ring */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -199,12 +246,62 @@ body {
 
 /* The actual canvas inside the container */
 #arcade-container canvas {
-  image-rendering: pixelated; /* Keeps it sharp! */
-  box-shadow: 0 0 20px rgba(0,0,0,0.8) inset;
+  image-rendering: pixelated;
+  /* Keeps it sharp! */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8) inset;
   border-radius: 4px;
   /* Scale it up via CSS, or we can adjust internal resolution. CSS scale is easiest if pixelated is used. */
   width: 600px;
   height: 630px;
+}
+
+/* Mobile Responsive - Arcade Container */
+@media (max-width: 768px) {
+  .arcade-content {
+    padding: 15px;
+    width: 95%;
+    max-width: 500px;
+  }
+
+  .arcade-header h2 {
+    font-size: 1.2rem;
+  }
+
+  #arcade-container canvas {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .arcade-instructions {
+    font-size: 0.75rem;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-content {
+    padding: 10px;
+  }
+
+  .arcade-header {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  .arcade-header h2 {
+    font-size: 1rem;
+  }
+
+  #close-arcade-btn {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+  }
+
+  #arcade-container canvas {
+    max-width: 300px;
+  }
 }
 
 .arcade-instructions {
@@ -274,8 +371,15 @@ body {
 }
 
 @keyframes po-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .po-label {
@@ -283,14 +387,14 @@ body {
   font-size: 0.65rem;
   font-weight: 500;
   letter-spacing: 3px;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255, 255, 255, 0.35);
   text-transform: uppercase;
 }
 
 /* ─── LEFT PANEL (Laptop / List) ─── */
 .po-left {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   padding: 28px 24px 20px;
   display: flex;
@@ -321,7 +425,7 @@ body {
 .po-subtitle {
   margin: 0;
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* Project list */
@@ -335,12 +439,21 @@ body {
   flex-direction: column;
   gap: 4px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
-.po-list::-webkit-scrollbar { width: 4px; }
-.po-list::-webkit-scrollbar-track { background: transparent; }
-.po-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+.po-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.po-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.po-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
 
 .po-list-item {
   display: flex;
@@ -365,25 +478,29 @@ body {
 }
 
 .po-list-item:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
   transform: translateX(3px);
 }
 
-.po-list-item:hover::before { opacity: 0.06; }
+.po-list-item:hover::before {
+  opacity: 0.06;
+}
 
 .po-list-item.active {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   border-color: var(--accent, #4facfe);
   transform: translateX(4px);
 }
 
-.po-list-item.active::before { opacity: 0.12; }
+.po-list-item.active::before {
+  opacity: 0.12;
+}
 
 .po-item-num {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255, 255, 255, 0.25);
   flex-shrink: 0;
   width: 22px;
   transition: color 0.2s;
@@ -405,23 +522,25 @@ body {
 .po-item-title {
   font-size: 0.88rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.2s;
 }
 
-.po-list-item.active .po-item-title { color: #fff; }
+.po-list-item.active .po-item-title {
+  color: #fff;
+}
 
 .po-item-cat {
   font-size: 0.72rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .po-item-arrow {
   font-size: 1.2rem;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255, 255, 255, 0.2);
   transition: color 0.2s, transform 0.2s;
   flex-shrink: 0;
 }
@@ -442,9 +561,9 @@ body {
   width: 100%;
   padding: 10px;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
@@ -461,8 +580,8 @@ body {
 /* ─── RIGHT PANEL (Monitor / Detail) ─── */
 .po-right {
   --accent: #6C63FF;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   padding: 24px;
   display: flex;
@@ -484,18 +603,18 @@ body {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  color: rgba(255,255,255,0.15);
+  color: rgba(255, 255, 255, 0.15);
 }
 
 .po-empty-icon svg {
-  color: rgba(255,255,255,0.1);
+  color: rgba(255, 255, 255, 0.1);
 }
 
 .po-empty-text {
   text-align: center;
   font-size: 0.85rem;
   line-height: 1.6;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255, 255, 255, 0.2);
   margin: 0;
 }
 
@@ -516,7 +635,7 @@ body {
   background: #000;
   aspect-ratio: 16/9;
   flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .po-video-wrap video {
@@ -530,13 +649,11 @@ body {
 .po-video-scanline {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.05) 2px,
-    rgba(0,0,0,0.05) 4px
-  );
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0.05) 4px);
   pointer-events: none;
 }
 
@@ -548,7 +665,7 @@ body {
   gap: 14px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .po-detail-top {
@@ -571,7 +688,7 @@ body {
 }
 
 .po-detail-year {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .po-detail-title {
@@ -586,7 +703,7 @@ body {
   margin: 0;
   font-size: 0.82rem;
   line-height: 1.7;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Tech tags */
@@ -643,15 +760,15 @@ body {
 }
 
 .po-btn--secondary {
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.7);
-  border-color: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .po-btn--secondary:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-color: rgba(255,255,255,0.2);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
 }
 
@@ -661,9 +778,118 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     height: 95vh;
+    padding: 15px;
+    gap: 15px;
   }
+
   .po-left {
     max-height: 45vh;
+    padding: 20px 18px 15px;
+  }
+
+  .po-title {
+    font-size: 1.3rem;
+  }
+
+  .po-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .po-list-item {
+    padding: 10px 12px;
+  }
+
+  .po-item-title {
+    font-size: 0.82rem;
+  }
+
+  .po-item-cat {
+    font-size: 0.68rem;
+  }
+
+  .po-right {
+    padding: 18px;
+  }
+
+  .po-detail-title {
+    font-size: 1.15rem;
+  }
+
+  .po-detail-desc {
+    font-size: 0.78rem;
+  }
+
+  .po-btn {
+    padding: 9px 16px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .po-container {
+    padding: 10px;
+    height: 98vh;
+  }
+
+  .po-left {
+    padding: 15px;
+    max-height: 40vh;
+  }
+
+  .po-title {
+    font-size: 1.1rem;
+  }
+
+  .po-list-item {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .po-item-num {
+    font-size: 0.65rem;
+    width: 18px;
+  }
+
+  .po-item-title {
+    font-size: 0.75rem;
+  }
+
+  .po-item-cat {
+    font-size: 0.62rem;
+  }
+
+  .po-right {
+    padding: 15px;
+  }
+
+  .po-video-wrap {
+    aspect-ratio: 16/10;
+  }
+
+  .po-detail-title {
+    font-size: 1rem;
+  }
+
+  .po-detail-desc {
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .po-tech-tag {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+
+  .po-cta-wrap {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .po-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    font-size: 0.8rem;
   }
 }
 
@@ -776,9 +1002,20 @@ body {
   font-size: 20px;
 }
 
-.co-action-btn.email .co-icon { background: rgba(52, 152, 219, 0.2); color: #3498db; }
-.co-action-btn.linkedin .co-icon { background: rgba(0, 119, 181, 0.2); color: #0077b5; }
-.co-action-btn.github .co-icon { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.co-action-btn.email .co-icon {
+  background: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+}
+
+.co-action-btn.linkedin .co-icon {
+  background: rgba(0, 119, 181, 0.2);
+  color: #0077b5;
+}
+
+.co-action-btn.github .co-icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
 
 .co-dialer {
   display: flex;
@@ -786,7 +1023,8 @@ body {
   margin-top: auto;
 }
 
-.co-call-btn, .co-end-btn {
+.co-call-btn,
+.co-end-btn {
   width: 72px;
   height: 72px;
   border-radius: 50%;
@@ -808,10 +1046,110 @@ body {
   box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
 }
 
-.co-call-btn:hover, .co-end-btn:hover {
+.co-call-btn:hover,
+.co-end-btn:hover {
   transform: scale(1.05);
   filter: brightness(1.1);
 }
+
+/* Mobile Responsive - Contact Overlay */
+@media (max-width: 768px) {
+  .co-container {
+    max-width: 90%;
+    padding: 0 15px;
+  }
+
+  .co-card {
+    padding: 30px 20px 25px;
+    border-radius: 28px;
+  }
+
+  .co-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .co-name {
+    font-size: 22px;
+  }
+
+  .co-role {
+    font-size: 13px;
+    margin-bottom: 25px;
+  }
+
+  .co-actions {
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .co-action-btn {
+    font-size: 11px;
+  }
+
+  .co-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .co-dialer {
+    gap: 20px;
+  }
+
+  .co-call-btn,
+  .co-end-btn {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .co-container {
+    max-width: 95%;
+  }
+
+  .co-card {
+    padding: 25px 15px 20px;
+    border-radius: 24px;
+  }
+
+  .co-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .co-name {
+    font-size: 20px;
+  }
+
+  .co-role {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .co-actions {
+    gap: 12px;
+    margin-bottom: 25px;
+  }
+
+  .co-action-btn {
+    font-size: 10px;
+  }
+
+  .co-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .co-call-btn,
+  .co-end-btn {
+    width: 55px;
+    height: 55px;
+  }
+}
+
 #spline-canvas {
   position: fixed;
   top: 0;

@@ -1,0 +1,137 @@
+/* Control Panel UI */
+#control-panel {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  width: 250px;
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 65, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Mobile Responsive - Control Panel */
+@media (max-width: 768px) {
+  #control-panel {
+    width: calc(100% - 30px);
+    max-width: 300px;
+    right: 15px;
+    bottom: 15px;
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+  .panel-header {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+
+  .control-list {
+    gap: 10px;
+  }
+
+  .control-list li {
+    font-size: 0.75rem;
+  }
+
+  .control-key {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+
+  #reset-view-btn {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  #control-panel {
+    width: calc(100% - 20px);
+    right: 10px;
+    bottom: 10px;
+    padding: 12px;
+  }
+}
+
+#control-panel:hover {
+  border-color: rgba(0, 255, 65, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 255, 65, 0.2);
+}
+
+.panel-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #00ff41;
+  /* Matrix Green */
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.control-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.control-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.control-key {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.control-desc {
+  color: #a0a0a0;
+  font-weight: 500;
+}
+
+#reset-view-btn {
+  width: 100%;
+  background: transparent;
+  color: #00ff41;
+  border: 1px solid rgba(0, 255, 65, 0.4);
+  padding: 12px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+#reset-view-btn:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: #00ff41;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+  transform: translateY(-2px);
+}
+
+#reset-view-btn:active {
+  transform: translateY(0);
+}

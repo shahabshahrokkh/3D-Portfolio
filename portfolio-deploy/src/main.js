@@ -28,6 +28,7 @@ import { setupEarth, updateEarth } from './scene/earth.js';
 
 // UI Styles
 import './ui/controls.css';
+import './ui/mobile.css';
 
 function init() {
   const { scene, camera, renderer, controls } = setupScene();
@@ -70,7 +71,7 @@ function init() {
   setupAnimations(scene);
   setupCameraTransitions(camera, controls);
   setupArcadeInteraction(camera);
-  
+
   // UI Controls
   const resetBtn = document.getElementById('reset-view-btn');
   if (resetBtn) {
@@ -85,7 +86,7 @@ function init() {
   window.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    
+
     glitchRaycaster.setFromCamera(mouse, camera);
     const intersects = glitchRaycaster.intersectObjects(glitchMeshes);
     if (intersects.length > 0) {
@@ -114,7 +115,7 @@ function init() {
     glitchMeshes.forEach(mesh => {
       if (mesh.userData.glitchManager) mesh.userData.glitchManager.update(renderer, time);
     });
-    
+
     renderer.render(scene, camera);
   }
 
