@@ -184,20 +184,6 @@ export function setupDragControls(camera, controls) {
 
   // Touch event handlers for mobile
   const onTouchStart = (event) => {
-    if (event.touches.length === 1) {
-      const touch = event.touches[0];
-      touchStartTime = Date.now();
-      touchStartPos = { x: touch.clientX, y: touch.clientY };
-
-      const started = startDrag(touch.clientX, touch.clientY);
-      if (started) {
-        event.preventDefault(); // Prevent scrolling when dragging
-      }
-    }
-  };
-
-  // Touch event handlers for mobile
-  const onTouchStart = (event) => {
     // Only handle single touch for dragging
     if (event.touches.length === 1) {
       const touch = event.touches[0];
@@ -258,10 +244,6 @@ export function setupDragControls(camera, controls) {
         window.removeEventListener('touchstart', onTouchStart, true);
         window.removeEventListener('touchmove', onTouchMove);
         window.removeEventListener('touchend', onTouchEnd);
-      }
-    }
-  };
-}
       }
     }
   };

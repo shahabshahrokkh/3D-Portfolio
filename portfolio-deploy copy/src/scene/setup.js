@@ -53,6 +53,12 @@ export function setupScene() {
     controls.zoomSpeed = 0.8;
     controls.panSpeed = 0.5;
     controls.enablePan = true; // Enable two-finger pan on mobile
+
+    // Fix pointer capture issue on mobile
+    controls.touches = {
+      ONE: THREE.TOUCH.ROTATE,
+      TWO: THREE.TOUCH.DOLLY_PAN
+    };
   }
 
   // Lighting - Optimize for mobile
