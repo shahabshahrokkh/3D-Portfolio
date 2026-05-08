@@ -72,11 +72,61 @@ function init() {
   setupCameraTransitions(camera, controls);
   setupArcadeInteraction(camera);
 
-  // UI Controls
+  // UI Controls - Desktop
   const resetBtn = document.getElementById('reset-view-btn');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       controls.reset();
+    });
+  }
+
+  // UI Controls - Mobile
+  const resetBtnMobile = document.getElementById('reset-view-btn-mobile');
+  if (resetBtnMobile) {
+    resetBtnMobile.addEventListener('click', () => {
+      controls.reset();
+
+      // Haptic feedback on mobile
+      if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+      }
+    });
+  }
+
+  // Mobile Control Panel Toggle
+  const controlToggleBtn = document.getElementById('control-toggle-btn');
+  const controlContent = document.getElementById('control-content');
+
+  if (controlToggleBtn && controlContent) {
+    // Load saved state from localStorage
+    const savedState = localStorage.getItem('mobileControlsExpanded');
+    if (savedState === 'true') {
+      controlContent.classList.remove('collapsed');
+      controlContent.classList.add('expanded');
+      controlToggleBtn.classList.add('expanded');
+    }
+
+    controlToggleBtn.addEventListener('click', () => {
+      const isCollapsed = controlContent.classList.contains('collapsed');
+
+      if (isCollapsed) {
+        // Expand
+        controlContent.classList.remove('collapsed');
+        controlContent.classList.add('expanded');
+        controlToggleBtn.classList.add('expanded');
+        localStorage.setItem('mobileControlsExpanded', 'true');
+      } else {
+        // Collapse
+        controlContent.classList.remove('expanded');
+        controlContent.classList.add('collapsed');
+        controlToggleBtn.classList.remove('expanded');
+        localStorage.setItem('mobileControlsExpanded', 'false');
+      }
+
+      // Haptic feedback
+      if ('vibrate' in navigator) {
+        navigator.vibrate(30);
+      }
     });
   }
 

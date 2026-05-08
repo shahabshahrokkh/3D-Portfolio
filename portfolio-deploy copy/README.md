@@ -149,7 +149,8 @@ npm run preview
 ### مستندات موبایل:
 - 📖 [فهرست کامل مستندات](./MOBILE_DOCS_INDEX.md)
 - 🚀 [شروع سریع](./QUICK_START_MOBILE.md)
-- 👆 [بهینه‌سازی تاچ و Drag](./TOUCH_OPTIMIZATION.md) ⭐ جدید!
+- 👆 [بهینه‌سازی تاچ و Drag](./TOUCH_OPTIMIZATION.md)
+- 🎮 [راهنمای Control Panel](./CONTROL_PANEL_GUIDE.md) ⭐ جدید!
 - 📝 [خلاصه تغییرات](./MOBILE_SUMMARY.md)
 - 📊 [مقایسه قبل/بعد](./BEFORE_AFTER.md)
 - 🔍 [راهنمای جامع](./MOBILE_OPTIMIZATION.md)

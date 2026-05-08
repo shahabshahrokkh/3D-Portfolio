@@ -48,8 +48,8 @@
     <div id="app"></div>
     <div id="action-ui"></div>
     
-    <!-- Control Panel UI -->
-    <aside id="control-panel">
+    <!-- Control Panel UI - Desktop -->
+    <aside id="control-panel" class="desktop-controls">
       <div class="panel-header">CONTROLS</div>
       <ul class="control-list">
         <li><span class="control-key">Left Click</span><span class="control-desc">Drag / Select</span></li>
@@ -57,6 +57,54 @@
         <li><span class="control-key">Scroll</span><span class="control-desc">Zoom In/Out</span></li>
       </ul>
       <button id="reset-view-btn">RESET VIEW</button>
+    </aside>
+
+    <!-- Control Panel UI - Mobile -->
+    <aside id="control-panel-mobile" class="mobile-controls">
+      <!-- Toggle Button -->
+      <button id="control-toggle-btn" class="control-toggle" aria-label="Toggle Controls">
+        <span class="hamburger-icon">
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+        </span>
+        <span class="toggle-text">Controls</span>
+      </button>
+      
+      <!-- Collapsible Content -->
+      <div id="control-content" class="control-content collapsed">
+        <div class="panel-header">
+          <span class="panel-icon">👆</span>
+          TOUCH CONTROLS
+        </div>
+        <ul class="control-list">
+          <li>
+            <span class="control-icon">👆</span>
+            <div class="control-info">
+              <span class="control-key">Tap</span>
+              <span class="control-desc">Select Objects</span>
+            </div>
+          </li>
+          <li>
+            <span class="control-icon">☝️</span>
+            <div class="control-info">
+              <span class="control-key">One Finger</span>
+              <span class="control-desc">Rotate / Drag</span>
+            </div>
+          </li>
+          <li>
+            <span class="control-icon">✌️</span>
+            <div class="control-info">
+              <span class="control-key">Two Fingers</span>
+              <span class="control-desc">Zoom / Pan</span>
+            </div>
+          </li>
+        </ul>
+        <button id="reset-view-btn-mobile" class="reset-btn-mobile">
+          <span class="btn-icon">🔄</span>
+          RESET VIEW
+        </button>
+      </div>
     </aside>
 
     <div id="arcade-hint" style="display:none;">🕹️ Click the screen to play! Press ESC to exit.</div>
