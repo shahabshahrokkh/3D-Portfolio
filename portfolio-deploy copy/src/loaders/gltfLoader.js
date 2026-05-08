@@ -7,7 +7,7 @@ export const loadingManager = new THREE.LoadingManager(
   () => {
     const loadingScreen = document.getElementById('loading-screen');
     const loadingContent = loadingScreen?.querySelector('.loading-content');
-    
+
     if (loadingScreen && loadingContent) {
       // Smooth fade out and slide up transition
       loadingContent.style.transform = 'translateY(-50px)';
@@ -15,14 +15,14 @@ export const loadingManager = new THREE.LoadingManager(
       loadingScreen.style.visibility = 'hidden';
       setTimeout(() => loadingScreen.remove(), 1000);
     }
-    console.log('All models loaded!');
+    // Debug removed for production
   },
   // onProgress
   (itemUrl, itemsLoaded, itemsTotal) => {
     const progress = Math.round((itemsLoaded / itemsTotal) * 100);
     const bar = document.getElementById('loading-bar');
     const text = document.getElementById('loading-text');
-    
+
     if (bar) bar.style.width = `${progress}%`;
     if (text) text.innerText = `Loading 3D Assets... ${progress}%`;
   },
@@ -56,7 +56,7 @@ export function loadGLTFModel(url) {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
-            
+
             if (child.material) {
               const materials = Array.isArray(child.material) ? child.material : [child.material];
               materials.forEach(mat => {
@@ -77,7 +77,7 @@ export function loadGLTFModel(url) {
             }
           }
         });
-        
+
         // Expose animations if any exist
         if (gltf.animations && gltf.animations.length > 0) {
           model.userData.animations = gltf.animations;

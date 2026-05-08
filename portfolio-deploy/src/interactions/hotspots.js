@@ -37,7 +37,7 @@ export const HotspotActions = {
   },
   toggleWindow: (object) => {
     showUI('Window action (future interactive logic)');
-    console.log('Window clicked - interaction placeholder');
+    // Debug removed for production
   },
   callIphone: (object) => {
     const userData = object?.userData;
@@ -49,8 +49,8 @@ export const HotspotActions = {
       // Focus the iPhone
       focusOnObject(iphoneModel);
       setTimeout(() => {
-         // After focusing iPhone, open the Contact UI
-         toggleContactUI(true);
+        // After focusing iPhone, open the Contact UI
+        toggleContactUI(true);
       }, 1200); // Wait for camera transition duration
     }
   },
@@ -69,5 +69,5 @@ function showUI(text) {
       ui.style.display = 'none';
     }, 3000);
   }
-  console.log(`Action Triggered: ${text}`);
+  // Debug removed for production
 }

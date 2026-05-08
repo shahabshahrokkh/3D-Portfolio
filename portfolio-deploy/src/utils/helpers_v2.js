@@ -10,17 +10,17 @@ export function createPlaceholder(config) {
     s = config.targetSize.width || config.targetSize.height || config.targetSize.depth || 1;
   }
   const geometry = new THREE.BoxGeometry(s, s, s);
-  const material = new THREE.MeshStandardMaterial({ 
+  const material = new THREE.MeshStandardMaterial({
     color: CONFIG.colors.placeholder,
-    wireframe: true 
+    wireframe: true
   });
   const mesh = new THREE.Mesh(geometry, material);
-  
-  mesh.position.set(...(config.position || [0,0,0]));
-  mesh.rotation.set(...(config.rotation || [0,0,0]));
+
+  mesh.position.set(...(config.position || [0, 0, 0]));
+  mesh.rotation.set(...(config.rotation || [0, 0, 0]));
   mesh.castShadow = true;
   mesh.receiveShadow = true;
-  
+
   return mesh;
 }
 
@@ -31,7 +31,7 @@ function normalizeModelScale(model, targetSizeConfig, name) {
   box.getSize(size);
   const center = new THREE.Vector3();
   box.getCenter(center);
-  
+
   // Calculate scale based on real-world reference
   // Use max of X and Z for width/depth to handle 90-degree internal GLB rotations
   let scale = 1;
@@ -49,12 +49,12 @@ function normalizeModelScale(model, targetSizeConfig, name) {
     const maxDim = Math.max(size.x, size.y, size.z);
     if (maxDim > 0) scale = target / maxDim;
   }
-  
-  console.log(`[Scale Debug] ${name || 'unknown'} | BoxSize: ${size.x.toFixed(3)}, ${size.y.toFixed(3)}, ${size.z.toFixed(3)} | Target:`, targetSizeConfig, `| Final Scale Multiplier: ${scale}`);
-  
+
+  // Debug removed for production
+
   // Wrap model to adjust pivot to bottom center
   const wrapper = new THREE.Group();
-  
+
   // Center X and Z, put min Y at 0
   model.position.set(-center.x, -box.min.y, -center.z);
   wrapper.add(model);
@@ -73,37 +73,37 @@ export async function createObjectWithPlaceholder(name, scene) {
   }
 
   const placeholder = createPlaceholder(config);
-  placeholder.name = name; 
-  
+  placeholder.name = name;
+
   if (config.type === 'interactable') {
     placeholder.userData = { action: config.action, isPlaceholder: true };
     ModelRegistry.registerInteractable(placeholder);
   }
-  
+
   // Attach to scene directly (No hierarchy scaling issues)
   scene.add(placeholder);
 
   // 2. Load GLB asynchronously
   try {
     const model = await loadGLTFModel(config.url);
-    
+
     // 3. Replace placeholder
-    
+
     // Normalize scale and fix pivot
     let finalObject = model;
     if (config.targetSize) {
       finalObject = normalizeModelScale(model, config.targetSize, name);
     }
-    
+
     // FORCE POSITIONS
-    const targetPos = config.position || [0,0,0];
+    const targetPos = config.position || [0, 0, 0];
     finalObject.position.set(targetPos[0], targetPos[1], targetPos[2]);
-    
-    const targetRot = config.rotation || [0,0,0];
+
+    const targetRot = config.rotation || [0, 0, 0];
     finalObject.rotation.set(targetRot[0], targetRot[1], targetRot[2]);
-    
+
     finalObject.name = name;
-    
+
     // Apply shadow settings from config
     if (config.castShadow === false) {
       finalObject.traverse((child) => {
@@ -113,15 +113,15 @@ export async function createObjectWithPlaceholder(name, scene) {
       });
     }
 
-    console.log(`[Layout Debug] Positioned ${name} at X: ${targetPos[0]}, Y: ${targetPos[1]}, Z: ${targetPos[2]} with final scale: ${finalObject.scale.x.toFixed(3)}`);
-    
+    // Debug removed for production
+
     if (config.type === 'interactable') {
       finalObject.userData = { action: config.action, isPlaceholder: false, isInteractableGroup: true };
       ModelRegistry.removeInteractable(placeholder);
-      
+
       finalObject.traverse((child) => {
         if (child.isMesh) {
-          child.userData = { ...finalObject.userData, parentGroup: finalObject }; 
+          child.userData = { ...finalObject.userData, parentGroup: finalObject };
           ModelRegistry.registerInteractable(child);
         }
       });
@@ -151,7 +151,7 @@ export async function createObjectWithPlaceholder(name, scene) {
         depthWrite: false
       });
       const hitBox = new THREE.Mesh(hitGeo, hitMat);
-      
+
       // Position hitbox correctly in local space by dividing the world offset by the parent's scale
       hitBox.position.set(
         (dragCenter.x - finalObject.position.x) / finalObject.scale.x,
@@ -196,7 +196,7 @@ export async function createObjectWithPlaceholder(name, scene) {
     // Swap in scene context directly
     scene.add(finalObject);
     scene.remove(placeholder);
-    
+
     placeholder.geometry.dispose();
     placeholder.material.dispose();
 

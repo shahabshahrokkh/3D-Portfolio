@@ -153,7 +153,7 @@ export async function initArcade(scene) {
     });
 
     if (screenMeshes.length > 0) {
-      console.log(`[Arcade] Found ${screenMeshes.length} screen meshes. Applying preview texture.`);
+      // Debug removed for production
       screenMeshes.forEach(mesh => {
         if (mesh.geometry.attributes.uv) {
           mesh.material = new THREE.MeshBasicMaterial({
@@ -164,7 +164,7 @@ export async function initArcade(scene) {
         }
       });
     } else {
-      console.log('[Arcade] ⚠️ No screens found or no UVs — creating overlay plane');
+      // Debug removed for production
       const modelBox2 = new THREE.Box3().setFromObject(model);
       const modelSize2 = new THREE.Vector3();
       modelBox2.getSize(modelSize2);
