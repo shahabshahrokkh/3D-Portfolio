@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { PROJECTS } from '../data/projects.js';
+import { disableControls, enableControls } from '../utils/controlsManager.js';
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let selectedProject = null;
@@ -164,7 +165,7 @@ function populateDetail(project) {
   const video = document.getElementById('po-video');
   video.src = project.video;
   video.load();
-  video.play().catch(() => {});
+  video.play().catch(() => { });
 
   // Text
   document.getElementById('po-detail-cat').textContent = project.category;
@@ -191,6 +192,9 @@ export function openProjects(onClose) {
   if (isOpen) return;
   isOpen = true;
   onCloseCallback = onClose || null;
+
+  // Disable 3D scene interactions
+  disableControls();
 
   buildOverlay();
   const overlay = document.getElementById('projects-overlay');
@@ -238,6 +242,13 @@ export function closeProjects() {
         // Reset detail panel
         document.getElementById('po-detail').style.display = 'none';
         document.getElementById('po-empty').style.display = 'flex';
+
+        // Re-enable 3D scene interactions
+        enableControls();
+
+        // Reveal the Projects label above the laptop
+        window.dispatchEvent(new CustomEvent('reveal-spatial-label', { detail: { modelName: 'laptop' } }));
+
         if (onCloseCallback) onCloseCallback();
       }
     });

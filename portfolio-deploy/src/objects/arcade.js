@@ -182,27 +182,13 @@ export async function initArcade(scene) {
       model.add(screenPlane);
     }
 
-    // Emissive glow ring
-    const glowGeo = new THREE.RingGeometry(0.4, 0.6, 32);
-    const glowMat = new THREE.MeshBasicMaterial({
-      color: 0xff00ff,
-      transparent: true,
-      opacity: 0.4,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    });
-    const glowRing = new THREE.Mesh(glowGeo, glowMat);
-    glowRing.rotation.x = -Math.PI / 2;
-    glowRing.position.y = 0.01;
-    wrapper.add(glowRing);
-    wrapper.userData.glowRing = glowRing;
+    // Glow ring removed - no longer needed
 
     // Register interactable
     wrapper.userData = {
       action: config.action,
       isPlaceholder: false,
       isInteractableGroup: true,
-      glowRing,
     };
     ModelRegistry.removeInteractable(placeholder);
 
@@ -238,10 +224,5 @@ export function getArcadeGroup() { return arcadeGroup; }
 export function updateArcade(time) {
   updatePreviewCanvas(time);
 
-  if (arcadeGroup?.userData?.glowRing) {
-    const ring = arcadeGroup.userData.glowRing;
-    ring.material.opacity = 0.2 + Math.abs(Math.sin(time * 2)) * 0.4;
-    const ps = 1 + Math.sin(time * 2.5) * 0.08;
-    ring.scale.set(ps, ps, 1);
-  }
+  // Glow ring animation removed
 }

@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { stopPhoneRinging } from '../objects/iphone.js';
+import { disableControls, enableControls } from '../utils/controlsManager.js';
 
 let isOpen = false;
 
@@ -14,7 +15,7 @@ function buildOverlay() {
       <div class="co-card" id="co-card">
         <div class="co-header">
           <div class="co-avatar">
-            <img src="/assets/polaroid_art.png" alt="Avatar" />
+            <img src="/assets/polaroid_art.webp" alt="Avatar" />
           </div>
           <h2 class="co-name">Contact Me</h2>
           <p class="co-role">Ready to build something amazing?</p>
@@ -56,7 +57,7 @@ function buildOverlay() {
     stopPhoneRinging();
     toggleContactUI(false);
   });
-  
+
   // Stop ringing when clicking any action button
   const actionBtns = document.querySelectorAll('.co-action-btn, .co-call-btn, .co-end-btn');
   actionBtns.forEach(btn => {
@@ -71,23 +72,35 @@ function buildOverlay() {
 
 export function toggleContactUI(show) {
   if (show === isOpen) return;
-  
+
   if (show) {
     buildOverlay();
     isOpen = true;
+
+    // Disable 3D scene interactions
+    disableControls();
+
     const overlay = document.getElementById('contact-overlay');
     overlay.style.display = 'flex';
-    
+
     gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 });
     gsap.fromTo('#co-card', { y: 100, scale: 0.9, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' });
   } else {
     const overlay = document.getElementById('contact-overlay');
     if (!overlay) return;
-    
+
     gsap.to('#co-card', { y: 50, scale: 0.95, opacity: 0, duration: 0.3, ease: 'power2.in' });
-    gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => {
-      overlay.style.display = 'none';
-      isOpen = false;
-    }});
+    gsap.to(overlay, {
+      opacity: 0, duration: 0.3, onComplete: () => {
+        overlay.style.display = 'none';
+        isOpen = false;
+
+        // Re-enable 3D scene interactions
+        enableControls();
+
+        // Reveal the Contact label above the iPhone
+        window.dispatchEvent(new CustomEvent('reveal-spatial-label', { detail: { modelName: 'iphone' } }));
+      }
+    });
   }
 }

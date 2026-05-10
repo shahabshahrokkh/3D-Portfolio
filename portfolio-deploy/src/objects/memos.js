@@ -205,7 +205,7 @@ export async function initMemos(scene) {
     },
     {
       style: 'polaroid', fastener: 'tape',
-      text: 'My Workspace', imageUrl: '/assets/polaroid_art.png',
+      text: 'My Workspace', imageUrl: '/assets/polaroid_art.webp',
       pos: [0.75, 2.15, Z_POS], rot: [0, 0, -0.08], url: 'https://linkedin.com'
     },
     {

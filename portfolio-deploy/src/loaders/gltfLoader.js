@@ -5,17 +5,8 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 export const loadingManager = new THREE.LoadingManager(
   // onLoad
   () => {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingContent = loadingScreen?.querySelector('.loading-content');
-
-    if (loadingScreen && loadingContent) {
-      // Smooth fade out and slide up transition
-      loadingContent.style.transform = 'translateY(-50px)';
-      loadingScreen.style.opacity = '0';
-      loadingScreen.style.visibility = 'hidden';
-      setTimeout(() => loadingScreen.remove(), 1000);
-    }
-    // Debug removed for production
+    // Automatic removal disabled for Progressive Loading Tiers in main.js
+    console.log('Tiered assets ready.');
   },
   // onProgress
   (itemUrl, itemsLoaded, itemsTotal) => {
@@ -37,7 +28,7 @@ const gltfLoader = new GLTFLoader(loadingManager);
 
 // Draco loader for compressed geometry
 const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/'); // use CDN for simplicity or local path
+dracoLoader.setDecoderPath('/draco/'); // Local decoder — no CDN round-trip
 gltfLoader.setDRACOLoader(dracoLoader);
 
 /**

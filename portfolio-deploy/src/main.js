@@ -1,12 +1,16 @@
 import * as THREE from 'three';
 import { setupScene } from './scene/setup.js';
 import { createEnvironment, glitchMeshes } from './scene/environment.js';
+import { updateDustParticles } from './scene/environment.js';
 import { initCosmicEnvironment, updateCosmicEnvironment } from './scene/cosmic.js';
 import { setupRaycaster } from './interactions/raycaster.js';
 import { setupAnimations, updateAnimations } from './animations/idle.js';
 import { setupCameraTransitions } from './interactions/cameraTransitions.js';
 import { setupDragControls } from './interactions/dragControls.js';
 import { setupArcadeInteraction } from './interactions/arcadeInteraction.js';
+import { initControlsManager } from './utils/controlsManager.js';
+import { setupSpatialUI, revealLabel } from './ui/SpatialUI.js';
+import '../style.css';
 
 import { initLaptop } from './objects/laptop.js';
 import { initBed } from './objects/bed.js';
@@ -18,6 +22,17 @@ import { initMemos } from './objects/memos.js';
 import { initArcade, updateArcade } from './objects/arcade.js';
 import { initIphone } from './objects/iphone.js';
 import { initShelves } from './objects/shelves.js';
+import { initBookshelf } from './objects/bookshelf.js';
+import { initPythonIcon } from './objects/pythonIcon.js';
+import { initReactIcon } from './objects/reactIcon.js';
+import { initHtmlIcon } from './objects/htmlIcon.js';
+import { initBlenderIcon } from './objects/blenderIcon.js';
+import { initTypewriter } from './objects/typewriter.js';
+import { initCsharpIcon } from './objects/csharpIcon.js';
+import { initCIcon } from './objects/cIcon.js';
+import { initSpaceHelmet } from './objects/spaceHelmet.js';
+import { initSonicCartridge } from './objects/sonicCartridge.js';
+import { initLogoModel } from './objects/logoModel.js';
 import { initCarpet } from './objects/carpet.js';
 import { initMonitor } from './objects/monitor.js';
 import { initMouseKeyboard } from './objects/mouseKeyboard.js';
@@ -30,47 +45,87 @@ import { setupEarth, updateEarth } from './scene/earth.js';
 import './ui/controls.css';
 import './ui/mobile.css';
 
-function init() {
-  const { scene, camera, renderer, controls } = setupScene();
+async function init() {
+  const { scene, camera, renderer, controls, composer, labelRenderer, isMobile } = setupScene();
 
-  // Load environment
+  // 1. Initial Scene Setup
   createEnvironment(scene);
-
-  // Enable camera to see Layer 1 (Earth layer) in addition to Layer 0
   camera.layers.enable(1);
-
-  // Setup Cosmic Environment (Stars & Meteors)
   initCosmicEnvironment(scene);
-
-  // Setup Earth Background
   setupEarth(scene);
-
-  // Load objects asynchronously (they handle their own placeholders)
-  initDesk(scene);
-  initChair(scene);
-  initBed(scene);
-  initLaptop(scene);
-  initIphone(scene);
-  initCat(scene);
-  initWhiteboard(scene);
-  initMemos(scene);
-  initArcade(scene, camera, renderer);
-  initShelves(scene);
-  initCarpet(scene);
-  initMonitor(scene);
-  initMouseKeyboard(scene);
-  initWindows(scene);
-  initAstronaut(scene);
-
-  // Pass scene to hotspots so whiteboard animation can add canvas plane
   setHotspotScene(scene);
 
-  // Setup Interaction, Animation, and Camera Transitions
+  // 2. Setup Interaction & Controls
   setupRaycaster(camera, scene);
   const dragControls = setupDragControls(camera, controls);
   setupAnimations(scene);
   setupCameraTransitions(camera, controls);
   setupArcadeInteraction(camera);
+  initControlsManager(controls);
+
+  // ═══════════════════════════════════════════════════════════════════
+  // PROGRESSIVE LOADING TIERS
+  // ═══════════════════════════════════════════════════════════════════
+
+  // TIER 1: Core Environment (Desk, Room shell, Monitor)
+  const tier1 = [
+    initDesk(scene),
+    initMonitor(scene),
+    initChair(scene),
+    initLaptop(scene),
+    initWindows(scene),
+    initCarpet(scene)
+  ];
+
+  await Promise.all(tier1);
+  
+  // Hide Loading Screen after Core elements are ready
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => loadingScreen.remove(), 1000);
+  }
+
+  // TIER 2: Secondary Furniture & Essentials
+  const tier2 = [
+    initBed(scene),
+    initShelves(scene),
+    initBookshelf(scene),
+    initWhiteboard(scene),
+    initMouseKeyboard(scene)
+  ];
+  
+  await Promise.all(tier2);
+
+  // TIER 3: Details & Interactive Icons
+  const tier3 = [
+    initIphone(scene),
+    initCat(scene),
+    initAstronaut(scene),
+    initArcade(scene, camera, renderer),
+    initMemos(scene),
+    initPythonIcon(scene),
+    initReactIcon(scene),
+    initHtmlIcon(scene),
+    initBlenderIcon(scene),
+    initTypewriter(scene),
+    initCsharpIcon(scene),
+    initCIcon(scene),
+    initSpaceHelmet(scene),
+    initSonicCartridge(scene),
+    initLogoModel(scene)
+  ];
+
+  // Load Tier 3 in the background (no await needed for the whole tier if we want it truly progressive)
+  Promise.all(tier3).then(() => {
+    // Setup Spatial UI after everything is loaded for best positioning
+    setupSpatialUI(scene, camera);
+
+    // Bookshelf icons block raycasting on the bookshelf mesh itself.
+    // Auto-reveal the Skills label after a short delay as an onboarding hint.
+    setTimeout(() => revealLabel('bookshelf'), 4000);
+  });
+
 
   // UI Controls - Desktop
   const resetBtn = document.getElementById('reset-view-btn');
@@ -155,18 +210,29 @@ function init() {
     requestAnimationFrame(animate);
     const time = clock.getElapsedTime();
 
-    controls.update(); // required if damping enabled
+    controls.update();
     dragControls.update();
     updateAnimations();
     updateArcade(time);
     updateCosmicEnvironment(time);
     updateEarth(time);
     updateAstronaut(time);
+    updateDustParticles(time);
     glitchMeshes.forEach(mesh => {
       if (mesh.userData.glitchManager) mesh.userData.glitchManager.update(renderer, time);
     });
 
-    renderer.render(scene, camera);
+    // Use composer for post-processing if available, otherwise fallback to renderer
+    if (composer) {
+      composer.render();
+    } else {
+      renderer.render(scene, camera);
+    }
+
+    // Render CSS labels
+    if (labelRenderer) {
+      labelRenderer.render(scene, camera);
+    }
   }
 
   animate();

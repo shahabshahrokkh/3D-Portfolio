@@ -4,6 +4,7 @@ import { ModelRegistry } from '../utils/registry.js';
 import { HotspotActions } from './hotspots.js';
 import { CONFIG } from '../utils/config.js';
 import { focusOnObject } from './cameraTransitions.js';
+import { isRaycasterEnabled } from '../utils/controlsManager.js';
 
 export function setupRaycaster(camera, scene) {
   const raycaster = new THREE.Raycaster();
@@ -22,6 +23,17 @@ export function setupRaycaster(camera, scene) {
   }
 
   const updatePointer = (clientX, clientY) => {
+    // Check if raycaster is enabled
+    if (!isRaycasterEnabled()) {
+      // Reset hover if disabled
+      if (hoveredObject) {
+        resetHover(hoveredObject);
+        hoveredObject = null;
+        document.body.style.cursor = 'default';
+      }
+      return;
+    }
+
     // Calculate pointer position in normalized device coordinates (-1 to +1)
     mouse.x = (clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(clientY / window.innerHeight) * 2 + 1;
@@ -143,10 +155,15 @@ export function setupRaycaster(camera, scene) {
 
     // Apply highlight (emissive)
     if (object.material.emissive) {
-      object.material.emissive.setHex(CONFIG.colors.hoverEmissive);
+      // Brighter emissive to trigger Bloom effect
+      object.material.emissive.setHex(0x555555); 
+      if (object.material.emissiveIntensity !== undefined) {
+        if (!object.userData.originalEmissiveIntensity) object.userData.originalEmissiveIntensity = object.material.emissiveIntensity;
+        object.material.emissiveIntensity = 2.0; // Stronger glow for Bloom
+      }
     } else if (object.material.color) {
       // Fallback for basic materials
-      object.material.color.addScalar(0.2);
+      object.material.color.addScalar(0.3);
     }
   }
 
@@ -164,6 +181,9 @@ export function setupRaycaster(camera, scene) {
       const orig = originalMaterials.get(object.uuid);
       if (object.material.emissive && orig.emissive) {
         object.material.emissive.copy(orig.emissive);
+        if (object.userData.originalEmissiveIntensity !== undefined) {
+          object.material.emissiveIntensity = object.userData.originalEmissiveIntensity;
+        }
       } else if (object.material.color && orig.color) {
         object.material.color.copy(orig.color);
       }

@@ -1,4 +1,5 @@
 import { SnakeGame } from '../game/snakeGame.js';
+import { disableControls, enableControls } from '../utils/controlsManager.js';
 
 let isArcadeActive = false;
 let arcadeGame = null;
@@ -30,7 +31,10 @@ export function setupArcadeInteraction(camera) {
 function activateArcadeMode() {
   if (isArcadeActive) return;
   isArcadeActive = true;
-  
+
+  // Disable 3D scene interactions
+  disableControls();
+
   if (overlayEl) {
     overlayEl.classList.add('active');
   }
@@ -43,7 +47,7 @@ function activateArcadeMode() {
   if (!arcadeGame) {
     arcadeGame = new SnakeGame();
   }
-  
+
   if (containerEl) {
     containerEl.innerHTML = '';
     containerEl.appendChild(arcadeGame.canvas);
@@ -70,6 +74,12 @@ function deactivateArcadeMode() {
   if (containerEl) {
     containerEl.innerHTML = '';
   }
+
+  // Re-enable 3D scene interactions
+  enableControls();
+
+  // Reveal the Gaming label above the arcade machine
+  window.dispatchEvent(new CustomEvent('reveal-spatial-label', { detail: { modelName: 'arcade' } }));
 }
 
 export function isArcadeModeActive() {

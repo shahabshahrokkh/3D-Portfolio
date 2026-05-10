@@ -83,6 +83,85 @@ export const CONFIG = {
       position: [-7.15, 1.5, -3.5], // Closer to arcade, slightly pulled away from wall
       rotation: [0, Math.PI / 2, 0], // Flat against the left wall
       targetSize: { width: 1.5 },
+      type: 'interactable',
+      action: 'focusShelves'
+    },
+    bookshelf: {
+      url: '/assets/models/room_shelves.glb',
+      position: [-3, 0, -7.2], // Between desk and arcade, against back wall
+      rotation: [0, Math.PI, 0], // Face into room
+      targetSize: { height: 2.0 },
+      type: 'interactable',
+      action: 'focusBookshelf'
+    },
+    pythonIcon: {
+      url: '/assets/models/python_programming_language.glb',
+      position: [-3.6, 0.50, -7.15], // Inside bookshelf, bottom shelf (row 1), left
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.15 },
+      type: 'environment'
+    },
+    reactIcon: {
+      url: '/assets/models/react_logo.glb',
+      position: [-2.4, 0.90, -7.15], // Inside bookshelf, second shelf (row 2), right
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.15 },
+      type: 'environment'
+    },
+    htmlIcon: {
+      url: '/assets/models/html_css_javascript_model.glb',
+      position: [-3.6, 1.70, -7.15], // Inside bookshelf, fourth shelf (row 4), left
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.15 },
+      type: 'environment'
+    },
+    blenderIcon: {
+      url: '/assets/models/free_blender_logo_3d_model.glb',
+      position: [-2.4, 0.50, -7.15], // Inside bookshelf, bottom shelf (row 1), right
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.15 },
+      type: 'environment'
+    },
+    typewriter: {
+      url: '/assets/models/victorian_typewriter.glb',
+      position: [-2.4, 1.30, -7.15], // Inside bookshelf, middle shelf (row 3), right
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { width: 0.25 }, // Small size for typewriter
+      type: 'environment'
+    },
+    csharpIcon: {
+      url: '/assets/models/c sharp (1).glb',
+      position: [-3.6, 0.90, -7.15], // Inside bookshelf, second shelf (row 2), left
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.15 },
+      type: 'environment'
+    },
+    cIcon: {
+      url: '/assets/models/c.glb',
+      position: [-2.4, 1.70, -7.15], // Inside bookshelf, fourth shelf (row 4), right
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.15 },
+      type: 'environment'
+    },
+    spaceHelmet: {
+      url: '/assets/models/sci_fi_space_helmet.glb',
+      position: [-3.0, 2.10, -7.15], // Inside bookshelf, top shelf (row 5), center
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.2 },
+      type: 'environment'
+    },
+    sonicCartridge: {
+      url: '/assets/models/sonic_2_mega_drive_cartridge.glb',
+      position: [-3.6, 1.30, -7.15], // Inside bookshelf, middle shelf (row 3), left
+      rotation: [0, 0, 0], // Face into room
+      targetSize: { height: 0.12 },
+      type: 'environment'
+    },
+    logoModel: {
+      url: '/assets/models/logo.glb',
+      position: [-3.0, 1.30, -7.15], // Inside bookshelf, middle shelf (row 3), center
+      rotation: [0, 0, 0],             // Face into room
+      targetSize: { height: 0.18 },
       type: 'environment'
     },
     carpet: {

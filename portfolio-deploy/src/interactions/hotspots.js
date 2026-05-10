@@ -14,10 +14,10 @@ export const HotspotActions = {
     openProjects();
   },
   openAbout: () => {
-    showUI('About Me - [Placeholder UI]');
+    showUI('About Me - Coming Soon!');
   },
   openSkills: () => {
-    showUI('Skills - [Placeholder UI]');
+    showUI('Skills - Coming Soon!');
   },
   playCatAnimation: () => {
     showUI('Meow! 🐱');
@@ -25,6 +25,8 @@ export const HotspotActions = {
   },
   openWhiteboard: () => {
     triggerWhiteboardAnimation(_scene);
+    // Reveal the About Me label above the whiteboard
+    window.dispatchEvent(new CustomEvent('reveal-spatial-label', { detail: { modelName: 'whiteboard' } }));
   },
   playArcade: () => {
     showUI('🕹️ Arcade - Click the screen to play!');
@@ -56,6 +58,15 @@ export const HotspotActions = {
   },
   openContact: () => {
     toggleContactUI(true);
+  },
+  focusBookshelf: () => {
+    showUI('📚 Programming Languages');
+    // Reveal the Skills label above the bookshelf
+    window.dispatchEvent(new CustomEvent('reveal-spatial-label', { detail: { modelName: 'bookshelf' } }));
+  },
+  focusShelves: (object) => {
+    showUI('🖼️ My Photo Frame');
+    focusOnObject(object);
   }
 };
 
