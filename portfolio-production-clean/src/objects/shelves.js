@@ -181,8 +181,6 @@ export async function initShelves(scene) {
 
         booksMesh.add(spineMesh);
       });
-
-      console.log('[SHELVES] ✅ PlaneGeometry spine labels added (fixed in 3D)');
     }
   }
 

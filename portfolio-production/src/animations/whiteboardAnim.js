@@ -210,6 +210,15 @@ export function triggerWhiteboardAnimation(scene) {
         if (callButtonMesh) {
           callButtonMesh.userData.isActive = true;
           ModelRegistry.registerInteractable(callButtonMesh);
+
+          // Register mobile hitbox if it exists
+          callButtonMesh.traverse((child) => {
+            if (child.userData.isMobileHitbox) {
+              child.userData.isActive = true;
+              ModelRegistry.registerInteractable(child);
+            }
+          });
+
           gsap.to(callButtonMesh.material, { opacity: 1, duration: 0.6, ease: 'power2.out' });
 
           // Start ringing immediately!

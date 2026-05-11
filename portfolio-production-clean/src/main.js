@@ -39,7 +39,7 @@ import { initResume } from './objects/resume.js';
 import { initCarpet } from './objects/carpet.js';
 import { initMonitor } from './objects/monitor.js';
 import { initMouseKeyboard } from './objects/mouseKeyboard.js';
-import { setHotspotScene } from './interactions/hotspots.js';
+import { setHotspotScene, registerMemos } from './interactions/hotspots.js';
 import { initAstronaut, updateAstronaut } from './objects/astronaut.js';
 import { setupEarth, updateEarth } from './scene/earth.js';
 import { createCompleteRoomWireframe } from './scene/wireframeDome.js';
@@ -117,7 +117,6 @@ async function init() {
     initCat(scene),
     initAstronaut(scene),
     initArcade(scene, camera, renderer),
-    initMemos(scene),
     initPythonIcon(scene),
     initReactIcon(scene),
     initHtmlIcon(scene),
@@ -130,6 +129,10 @@ async function init() {
     initLogoModel(scene),
     initThreejsIcon(scene)
   ];
+
+  // Initialize memos separately to register them for navigation
+  const memoObjects = await initMemos(scene);
+  registerMemos(memoObjects);
 
   // Load Tier 3 in the background (no await needed for the whole tier if we want it truly progressive)
   Promise.all(tier3).then(() => {

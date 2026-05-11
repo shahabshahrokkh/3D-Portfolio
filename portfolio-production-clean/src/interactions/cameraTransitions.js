@@ -2,6 +2,8 @@ import gsap from 'gsap';
 import * as THREE from 'three';
 
 let globalCamera, globalControls;
+let lastFocusTime = 0;
+const FOCUS_DEBOUNCE = 100; // 100ms debounce
 
 export function setupCameraTransitions(camera, controls) {
   globalCamera = camera;
@@ -10,6 +12,13 @@ export function setupCameraTransitions(camera, controls) {
 
 export function focusOnObject(object) {
   if (!globalCamera || !globalControls) return;
+
+  // Debounce to prevent multiple rapid calls
+  const now = Date.now();
+  if (now - lastFocusTime < FOCUS_DEBOUNCE) {
+    return;
+  }
+  lastFocusTime = now;
 
   // Calculate target position based on object bounding box
   const box = new THREE.Box3().setFromObject(object);
@@ -29,12 +38,13 @@ export function focusOnObject(object) {
 
   if (objectName === 'shelves') {
     // Wall shelves on left wall - camera should be in front (positive X direction)
-    // Position: [-7.15, 1.5, -3.5], rotation: [0, Math.PI / 2, 0]
     offset = new THREE.Vector3(maxDim * 2.5, maxDim * 0.5, 0);
   } else if (objectName === 'cat' || objectName === 'bed') {
     // Cat bed on left wall - camera should be in front (positive X direction)
-    // Position: [-6.0, 0, 0], rotation: [0, Math.PI / 2, 0]
     offset = new THREE.Vector3(maxDim * 2.5, maxDim * 0.8, 0);
+  } else if (object.userData?.action === 'openLink') {
+    // Memos on whiteboard - less zoom, further back for better view
+    offset = new THREE.Vector3(0, maxDim * 0.3, maxDim * 2.0);
   } else {
     // Default offset - slightly up and back from the object's front
     offset = new THREE.Vector3(0, maxDim * 0.8, maxDim * 2.0);

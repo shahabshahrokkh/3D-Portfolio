@@ -66,7 +66,7 @@ export async function initHtmlIcon(scene) {
                     mesh.parent.add(outline);
                 }
 
-                console.log(`Applied ${colors[index].name} color and black outline to mesh at index ${index}`);
+                // Applied color successfully
             }
         });
     }

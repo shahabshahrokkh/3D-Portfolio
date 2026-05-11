@@ -11,7 +11,6 @@ export function addMobileHitbox(object, config = {}) {
         || window.innerWidth < 768;
 
     if (!isMobile) {
-        console.log('🖥️ [Hitbox] Desktop detected, skipping mobile hitbox');
         return;
     }
 
@@ -56,8 +55,6 @@ export function addMobileHitbox(object, config = {}) {
 
     object.add(hitbox);
     ModelRegistry.registerInteractable(hitbox);
-
-    console.log(`📱 [Hitbox] Added mobile hitbox for ${action} (${hitboxWidth.toFixed(2)}x${hitboxDepth.toFixed(2)})`);
 
     return hitbox;
 }

@@ -22,7 +22,7 @@ function buildOverlay() {
         </div>
         
         <div class="co-actions">
-          <a href="mailto:test@test.com" class="co-action-btn email">
+          <a href="mailto:Shahabshahrokhh@gmail.com" class="co-action-btn email">
             <div class="co-icon">✉️</div>
             <span>Email</span>
           </a>

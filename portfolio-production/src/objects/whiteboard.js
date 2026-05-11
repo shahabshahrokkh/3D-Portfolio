@@ -88,12 +88,33 @@ export async function initWhiteboard(scene) {
       isActive: false // custom flag
     };
 
+    // Add larger invisible hitbox for mobile devices
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || window.innerWidth < 768;
+
+    if (isMobile) {
+      // Create a larger hitbox for easier tapping on mobile
+      const hitboxGeo = new THREE.PlaneGeometry(0.8, 0.3); // 60% larger
+      const hitboxMat = new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.0, // Invisible
+        depthWrite: false
+      });
+      const hitbox = new THREE.Mesh(hitboxGeo, hitboxMat);
+      hitbox.position.set(0, 0, 0.01); // Slightly in front
+      hitbox.userData = {
+        action: 'callIphone',
+        parentGroup: callButton,
+        isMobileHitbox: true
+      };
+      callButton.add(hitbox);
+    }
+
     scene.add(callButton);
     callButtonMesh = callButton;
 
     ModelRegistry.registerModel('marker', gltf);
-
-    console.log('[Whiteboard] Marker loaded at', MARKER_REST.position);
   } catch (e) {
     console.warn('[Whiteboard] Could not load marker:', e);
   }

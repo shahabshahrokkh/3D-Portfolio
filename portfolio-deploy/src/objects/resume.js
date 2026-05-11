@@ -4,9 +4,7 @@ import { loadImageAsTexture } from '../utils/pdfTextureLoader.js';
 import { ModelRegistry } from '../utils/registry.js';
 
 export async function initResume(scene) {
-    console.log('🔍 [DEBUG] Initializing resume model...');
     const result = await createObjectWithPlaceholder('resume', scene);
-    console.log('✅ [DEBUG] Resume model loaded:', result);
 
     // Apply resume image texture to the model
     if (result) {
@@ -16,8 +14,6 @@ export async function initResume(scene) {
             // The trifold brochure has 3 panels, we need to apply texture to all visible surfaces
             result.traverse((child) => {
                 if (child.isMesh) {
-                    console.log('📄 [DEBUG] Applying texture to mesh:', child.name);
-
                     // Create a new material with the resume texture
                     child.material = new THREE.MeshStandardMaterial({
                         map: texture,
@@ -32,7 +28,7 @@ export async function initResume(scene) {
 
                     // Ensure UV mapping is correct for trifold
                     if (child.geometry && child.geometry.attributes.uv) {
-                        console.log('✅ [DEBUG] UV mapping found for', child.name);
+                        // UV mapping exists
                     }
                 }
             });
@@ -78,10 +74,7 @@ export async function initResume(scene) {
                 hitbox.userData.parentGroup = result;
                 result.add(hitbox);
                 ModelRegistry.registerInteractable(hitbox);
-                console.log('📱 [DEBUG] Mobile hitbox added for easier interaction');
             }
-
-            console.log('✅ [DEBUG] Resume texture and lighting applied');
         } catch (error) {
             console.error('❌ [DEBUG] Error applying texture:', error);
         }

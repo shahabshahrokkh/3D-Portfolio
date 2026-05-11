@@ -122,6 +122,14 @@ export async function createMemo(config) {
   plane.castShadow = true;
   group.add(plane);
 
+  // Set group userData FIRST before copying to children
+  group.userData = {
+    action: 'openLink',
+    url: config.url,
+    isPlaceholder: false,
+    isInteractableGroup: true
+  };
+
   const fastenerType = config.fastener || 'pin';
 
   if (fastenerType === 'pin') {
@@ -160,6 +168,9 @@ export async function createMemo(config) {
     // Slight bend in X axis to look like it's pressing down on edges
     tape.rotation.x = -0.05;
     group.add(tape);
+
+    tape.userData = { ...group.userData, parentGroup: group };
+    ModelRegistry.registerInteractable(tape);
   }
   else if (fastenerType === 'magnet') {
     const magMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.2 });
@@ -170,19 +181,15 @@ export async function createMemo(config) {
     magMesh.rotation.x = Math.PI / 2;
     magMesh.position.set(0, height / 2 - 0.03, 0.008);
     group.add(magMesh);
+
+    magMesh.userData = { ...group.userData, parentGroup: group };
+    ModelRegistry.registerInteractable(magMesh);
   }
 
   group.position.set(...config.pos);
   if (config.rot) {
     group.rotation.set(...config.rot);
   }
-
-  group.userData = {
-    action: 'openLink',
-    url: config.url,
-    isPlaceholder: false,
-    isInteractableGroup: true
-  };
 
   plane.userData = { ...group.userData, parentGroup: group };
   ModelRegistry.registerInteractable(plane);
@@ -210,8 +217,8 @@ export async function initMemos(scene) {
     },
     {
       style: 'sticky-curved', fastener: 'pin', pinColor: 0x2196f3,
-      text: 'Contact Me\ntest@test.com', color: '#ffb74d', font: '"Caveat", cursive', fontSize: 50,
-      pos: [-0.1, 2.65, Z_POS], rot: [0, 0, 0.04], url: 'mailto:test@test.com'
+      text: 'Contact Me\nShahabshahrokhh\n@gmail.com', color: '#ffb74d', font: '"Caveat", cursive', fontSize: 36,
+      pos: [-0.1, 2.65, Z_POS], rot: [0, 0, 0.04], url: 'mailto:Shahabshahrokhh@gmail.com'
     },
     {
       style: 'sticky-curved', fastener: 'pin', pinColor: 0xff3333,
@@ -220,8 +227,13 @@ export async function initMemos(scene) {
     }
   ];
 
+  const memoObjects = [];
   for (const m of memosData) {
     const memo = await createMemo(m);
     scene.add(memo);
+    memoObjects.push(memo);
   }
+
+  // Return the memo objects for navigation registration
+  return memoObjects;
 }

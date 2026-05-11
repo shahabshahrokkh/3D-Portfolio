@@ -6,7 +6,6 @@ export const loadingManager = new THREE.LoadingManager(
   // onLoad
   () => {
     // Automatic removal disabled for Progressive Loading Tiers in main.js
-    console.log('Tiered assets ready.');
   },
   // onProgress
   (itemUrl, itemsLoaded, itemsTotal) => {

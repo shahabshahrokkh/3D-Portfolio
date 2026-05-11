@@ -12,7 +12,11 @@ function buildOverlay() {
     <div class="ro-backdrop" id="ro-backdrop"></div>
     <div class="ro-container">
       <div class="ro-card" id="ro-card">
-        <div class="ro-icon">📄</div>
+        <button class="ro-close-btn-top" id="ro-close-btn-top">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
         
         <div class="ro-preview">
           <iframe 
@@ -31,14 +35,6 @@ function buildOverlay() {
             <div class="ro-btn-icon">⬇️</div>
             <span>Download</span>
           </a>
-        </div>
-
-        <div class="ro-dialer">
-          <button class="ro-close-btn" id="ro-close-btn">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-            </svg>
-          </button>
         </div>
       </div>
     </div>
@@ -93,28 +89,42 @@ function buildOverlay() {
       position: relative;
     }
 
-    .ro-icon {
+    .ro-close-btn-top {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 32px;
-      animation: float 3s ease-in-out infinite;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
       z-index: 10;
+      touch-action: manipulation;
+      background: #ff3b30;
+      box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
+    .ro-close-btn-top:hover,
+    .ro-close-btn-top:active {
+      transform: scale(1.05);
+      filter: brightness(1.1);
     }
 
     .ro-preview {
       width: 100%;
-      height: 550px;
+      height: 600px;
       border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
     }
 
     .ro-pdf-preview {
@@ -127,9 +137,10 @@ function buildOverlay() {
     .ro-actions {
       display: flex;
       gap: 20px;
-      margin-bottom: 24px;
       width: 100%;
       justify-content: center;
+      position: relative;
+      z-index: 5;
     }
 
     .ro-action-btn {
@@ -177,96 +188,85 @@ function buildOverlay() {
       color: #34c759;
     }
 
-    .ro-dialer {
-      display: flex;
-      justify-content: center;
-      margin-top: auto;
-    }
-
-    .ro-close-btn {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s, filter 0.2s;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      position: relative;
-      z-index: 10;
-      touch-action: manipulation;
-      background: #ff3b30;
-      box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
-    }
-
-    .ro-close-btn:hover,
-    .ro-close-btn:active {
-      transform: scale(1.05);
-      filter: brightness(1.1);
-    }
-
     /* Mobile responsive */
     @media (max-width: 768px) {
       .ro-container {
-        max-width: 90%;
-        padding: 0 15px;
+        max-width: 95%;
+        padding: 0 10px;
       }
 
-      .ro-card {
-        padding: 20px;
-        border-radius: 28px;
-      }
-
-      .ro-icon {
-        font-size: 28px;
-        top: 16px;
-        right: 16px;
-      }
-
-      .ro-preview {
-        height: 450px;
-      }
-
-      .ro-actions {
-        gap: 24px; /* Increased gap for easier tapping */
-        margin-bottom: 24px;
-      }
-
-      .ro-action-btn {
-        font-size: 12px;
-        /* Larger touch target */
-        padding: 8px;
-      }
-
-      .ro-btn-icon {
-        width: 56px; /* Larger for easier tapping */
-        height: 56px;
-        font-size: 22px;
-      }
-
-      .ro-close-btn {
-        width: 72px; /* Larger for easier tapping */
-        height: 72px;
-      }
-    }
-
-    @media (max-width: 480px) {
       .ro-card {
         padding: 16px;
         border-radius: 24px;
+        max-height: 90vh;
+        overflow-y: auto;
       }
 
-      .ro-icon {
-        font-size: 24px;
+      .ro-close-btn-top {
+        width: 36px;
+        height: 36px;
         top: 12px;
         right: 12px;
       }
 
+      .ro-close-btn-top svg {
+        width: 24px;
+        height: 24px;
+      }
+
       .ro-preview {
-        height: 380px;
+        height: calc(100vh - 220px);
+        min-height: 350px;
+        max-height: 550px;
+        margin-bottom: 16px;
+      }
+
+      .ro-actions {
+        gap: 24px;
+      }
+
+      .ro-action-btn {
+        font-size: 13px;
+        padding: 8px;
+      }
+
+      .ro-btn-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ro-container {
+        max-width: 100%;
+        padding: 0 8px;
+      }
+
+      .ro-card {
+        padding: 12px;
+        border-radius: 20px;
+        max-height: 92vh;
+      }
+
+      .ro-close-btn-top {
+        width: 34px;
+        height: 34px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .ro-close-btn-top svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .ro-preview {
+        height: calc(100vh - 200px);
+        min-height: 320px;
+        max-height: 500px;
+        margin-bottom: 14px;
+        border-radius: 12px;
       }
 
       .ro-actions {
@@ -278,10 +278,71 @@ function buildOverlay() {
         height: 52px;
         font-size: 20px;
       }
+    }
 
-      .ro-close-btn {
-        width: 64px;
-        height: 64px;
+    /* Extra small screens (iPhone SE, etc.) */
+    @media (max-width: 375px) {
+      .ro-card {
+        padding: 10px;
+        border-radius: 18px;
+      }
+
+      .ro-close-btn-top {
+        width: 32px;
+        height: 32px;
+        top: 8px;
+        right: 8px;
+      }
+
+      .ro-close-btn-top svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .ro-preview {
+        height: calc(100vh - 180px);
+        min-height: 280px;
+        max-height: 450px;
+      }
+
+      .ro-actions {
+        gap: 16px;
+      }
+
+      .ro-btn-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+      }
+    }
+
+    /* Landscape mode on mobile */
+    @media (max-height: 600px) and (orientation: landscape) {
+      .ro-card {
+        max-height: 95vh;
+        padding: 10px;
+      }
+
+      .ro-close-btn-top {
+        width: 32px;
+        height: 32px;
+        top: 8px;
+        right: 8px;
+      }
+
+      .ro-preview {
+        height: calc(100vh - 160px);
+        min-height: 220px;
+        max-height: 400px;
+      }
+
+      .ro-actions {
+        gap: 16px;
+      }
+
+      .ro-btn-icon {
+        width: 44px;
+        height: 44px;
       }
     }
   `;
@@ -292,7 +353,7 @@ function buildOverlay() {
     toggleResumeUI(false);
   });
 
-  document.getElementById('ro-close-btn').addEventListener('click', () => {
+  document.getElementById('ro-close-btn-top').addEventListener('click', () => {
     toggleResumeUI(false);
   });
 

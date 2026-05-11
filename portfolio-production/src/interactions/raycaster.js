@@ -85,7 +85,18 @@ export function setupRaycaster(camera, scene) {
     }
   };
 
-  const handleClick = (clientX, clientY) => {
+  // Prevent double-firing on mobile (touchend + click)
+  let lastClickTime = 0;
+  const CLICK_DEBOUNCE = 300; // 300ms debounce
+
+  const handleClick = (clientX, clientY, isTouchEvent = false) => {
+    // Debounce to prevent double-firing
+    const now = Date.now();
+    if (now - lastClickTime < CLICK_DEBOUNCE) {
+      return;
+    }
+    lastClickTime = now;
+
     // Update pointer position for click
     mouse.x = (clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(clientY / window.innerHeight) * 2 + 1;
@@ -108,12 +119,12 @@ export function setupRaycaster(camera, scene) {
       const targetGroup = object.userData.parentGroup || object;
 
       // Haptic feedback on mobile
-      if (isMobile && 'vibrate' in navigator) {
+      if (isTouchEvent && 'vibrate' in navigator) {
         navigator.vibrate(50);
       }
 
-      // Focus Camera
-      if (!object.userData.isPlaceholder) {
+      // Focus Camera (skip for openLink action - it handles zoom internally)
+      if (!object.userData.isPlaceholder && actionName !== 'openLink') {
         focusOnObject(targetGroup);
       }
 
@@ -126,14 +137,14 @@ export function setupRaycaster(camera, scene) {
   };
 
   const onMouseClick = (event) => {
-    handleClick(event.clientX, event.clientY);
+    handleClick(event.clientX, event.clientY, false);
   };
 
   // Touch handler for mobile
   const onTouchEnd = (event) => {
     if (event.changedTouches.length > 0) {
       const touch = event.changedTouches[0];
-      handleClick(touch.clientX, touch.clientY);
+      handleClick(touch.clientX, touch.clientY, true);
     }
   };
 
@@ -191,21 +202,24 @@ export function setupRaycaster(camera, scene) {
   }
 
   window.addEventListener('mousemove', onMouseMove, false);
-  window.addEventListener('click', onMouseClick, false);
 
   // Add touch event listeners for mobile
   if (isMobile) {
     window.addEventListener('touchmove', onTouchMove, { passive: true });
     window.addEventListener('touchend', onTouchEnd, false);
+  } else {
+    // Only add click listener on desktop to avoid double-firing on mobile
+    window.addEventListener('click', onMouseClick, false);
   }
 
   return {
     cleanup: () => {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('click', onMouseClick);
       if (isMobile) {
         window.removeEventListener('touchmove', onTouchMove);
         window.removeEventListener('touchend', onTouchEnd);
+      } else {
+        window.removeEventListener('click', onMouseClick);
       }
     }
   };
