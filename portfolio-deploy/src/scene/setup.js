@@ -8,7 +8,7 @@ import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
 export function setupScene() {
   const container = document.getElementById('app');
-  
+
   // Clear container to prevent duplicate renderers/scenes (fixes the 'doubling' issue)
   if (container) {
     container.innerHTML = '';
@@ -43,11 +43,11 @@ export function setupScene() {
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
-  
+
   // High-end cinematic settings
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.7; // Lowered from 1.0 to prevent blinding
-  
+
   renderer.shadowMap.enabled = !isMobile;
   if (!isMobile) {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;

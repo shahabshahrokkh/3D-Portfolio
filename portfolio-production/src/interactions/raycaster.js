@@ -156,7 +156,7 @@ export function setupRaycaster(camera, scene) {
     // Apply highlight (emissive)
     if (object.material.emissive) {
       // Brighter emissive to trigger Bloom effect
-      object.material.emissive.setHex(0x555555); 
+      object.material.emissive.setHex(0x555555);
       if (object.material.emissiveIntensity !== undefined) {
         if (!object.userData.originalEmissiveIntensity) object.userData.originalEmissiveIntensity = object.material.emissiveIntensity;
         object.material.emissiveIntensity = 2.0; // Stronger glow for Bloom

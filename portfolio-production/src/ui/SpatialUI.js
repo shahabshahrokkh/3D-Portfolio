@@ -5,7 +5,7 @@ import { ModelRegistry } from '../utils/registry.js';
 // ─── State ────────────────────────────────────────────────────────────────────
 const labelMap = new Map(); // modelName → { worldPos, el, revealed, animating, animProgress, startX, startY }
 let _camera = null;
-let _rafId  = null;
+let _rafId = null;
 let lastTime = null;
 
 const ANIM_DURATION = 0.75; // seconds for fly-in animation
@@ -69,14 +69,14 @@ function updateLabelPositions(timestamp) {
       const t = easeOutBack(item.animProgress);
       const x = item.startX + (tx - item.startX) * t;
       const y = item.startY + (ty - item.startY) * t;
-      item.el.style.left    = `${x}px`;
-      item.el.style.top     = `${y}px`;
+      item.el.style.left = `${x}px`;
+      item.el.style.top = `${y}px`;
       item.el.style.opacity = `${Math.min(1, item.animProgress * 2)}`;
 
       if (item.animProgress >= 1) item.animating = false;
     } else {
-      item.el.style.left    = `${tx}px`;
-      item.el.style.top     = `${ty}px`;
+      item.el.style.left = `${tx}px`;
+      item.el.style.top = `${ty}px`;
       item.el.style.opacity = '1';
     }
   });
@@ -89,14 +89,14 @@ export function revealLabel(modelName) {
   const item = labelMap.get(modelName);
   if (!item || item.revealed) return;
 
-  item.revealed     = true;
-  item.animating    = true;
+  item.revealed = true;
+  item.animating = true;
   item.animProgress = 0;
   // Fly-in starts from top-left corner of screen
   item.startX = 36;
   item.startY = 24;
-  item.el.style.left    = `${item.startX}px`;
-  item.el.style.top     = `${item.startY}px`;
+  item.el.style.left = `${item.startX}px`;
+  item.el.style.top = `${item.startY}px`;
   item.el.style.opacity = '0';
   item.el.style.display = '';
 }
@@ -121,11 +121,12 @@ export function setupSpatialUI(scene, camera) {
   }
 
   const labelConfigs = [
-    { modelName: 'laptop',     text: 'Projects', icon: '💻', action: HotspotActions.openProjects, extraY: 0.5 },
-    { modelName: 'bookshelf',  text: 'Skills',   icon: '🧠', action: HotspotActions.openSkills,   extraY: 0.4 },
-    { modelName: 'whiteboard', text: 'About Me', icon: '👋', action: HotspotActions.openAbout,    extraY: 0.5 },
-    { modelName: 'iphone',     text: 'Contact',  icon: '✉️', action: HotspotActions.openContact,  extraY: 0.3 },
-    { modelName: 'arcade',     text: 'Gaming',   icon: '🕹️', action: HotspotActions.playArcade,   extraY: 0.5 },
+    { modelName: 'laptop', text: 'Projects', icon: '💻', action: HotspotActions.openProjects, extraY: 0.5 },
+    { modelName: 'bookshelf', text: 'Skills', icon: '🧠', action: HotspotActions.openSkills, extraY: 0.4 },
+    { modelName: 'whiteboard', text: 'About Me', icon: '👋', action: HotspotActions.openAbout, extraY: 0.5 },
+    { modelName: 'iphone', text: 'Contact', icon: '✉️', action: HotspotActions.openContact, extraY: 0.3 },
+    { modelName: 'arcade', text: 'Gaming', icon: '🕹️', action: HotspotActions.playArcade, extraY: 0.5 },
+    { modelName: 'resume', text: 'Resume', icon: '📄', action: HotspotActions.openResume, extraY: 0.3 },
   ];
 
   labelConfigs.forEach(cfg => {

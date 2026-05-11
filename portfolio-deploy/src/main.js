@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { setupScene } from './scene/setup.js';
 import { createEnvironment, glitchMeshes } from './scene/environment.js';
 import { updateDustParticles } from './scene/environment.js';
+import { ShaderGlitchManager } from './scene/shaderGlitch.js';
 import { initCosmicEnvironment, updateCosmicEnvironment } from './scene/cosmic.js';
 import { setupRaycaster } from './interactions/raycaster.js';
 import { setupAnimations, updateAnimations } from './animations/idle.js';
@@ -33,6 +34,8 @@ import { initCIcon } from './objects/cIcon.js';
 import { initSpaceHelmet } from './objects/spaceHelmet.js';
 import { initSonicCartridge } from './objects/sonicCartridge.js';
 import { initLogoModel } from './objects/logoModel.js';
+import { initThreejsIcon } from './objects/threejsIcon.js';
+import { initResume } from './objects/resume.js';
 import { initCarpet } from './objects/carpet.js';
 import { initMonitor } from './objects/monitor.js';
 import { initMouseKeyboard } from './objects/mouseKeyboard.js';
@@ -40,6 +43,7 @@ import { initWindows } from './objects/window.js';
 import { setHotspotScene } from './interactions/hotspots.js';
 import { initAstronaut, updateAstronaut } from './objects/astronaut.js';
 import { setupEarth, updateEarth } from './scene/earth.js';
+import { createCompleteRoomWireframe } from './scene/wireframeDome.js';
 
 // UI Styles
 import './ui/controls.css';
@@ -54,6 +58,17 @@ async function init() {
   initCosmicEnvironment(scene);
   setupEarth(scene);
   setHotspotScene(scene);
+
+  // Add Complete Room Wireframe (dome + glass panels + geodesic floor aligned with wireframe)
+  const { dome, glass, floor, animate: animateWireframe } = createCompleteRoomWireframe(scene);
+
+  // Add glitch effect to floor
+  if (floor) {
+    const floorGlitch = new ShaderGlitchManager(1024, 1024);
+    floor.userData.isGlitchSurface = true;
+    floor.userData.glitchManager = floorGlitch;
+    glitchMeshes.push(floor);
+  }
 
   // 2. Setup Interaction & Controls
   setupRaycaster(camera, scene);
@@ -78,7 +93,7 @@ async function init() {
   ];
 
   await Promise.all(tier1);
-  
+
   // Hide Loading Screen after Core elements are ready
   const loadingScreen = document.getElementById('loading-screen');
   if (loadingScreen) {
@@ -92,9 +107,10 @@ async function init() {
     initShelves(scene),
     initBookshelf(scene),
     initWhiteboard(scene),
-    initMouseKeyboard(scene)
+    initMouseKeyboard(scene),
+    initResume(scene)
   ];
-  
+
   await Promise.all(tier2);
 
   // TIER 3: Details & Interactive Icons
@@ -113,7 +129,8 @@ async function init() {
     initCIcon(scene),
     initSpaceHelmet(scene),
     initSonicCartridge(scene),
-    initLogoModel(scene)
+    initLogoModel(scene),
+    initThreejsIcon(scene)
   ];
 
   // Load Tier 3 in the background (no await needed for the whole tier if we want it truly progressive)
@@ -218,6 +235,7 @@ async function init() {
     updateEarth(time);
     updateAstronaut(time);
     updateDustParticles(time);
+    animateWireframe(); // Update room wireframe
     glitchMeshes.forEach(mesh => {
       if (mesh.userData.glitchManager) mesh.userData.glitchManager.update(renderer, time);
     });

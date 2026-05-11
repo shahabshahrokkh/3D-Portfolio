@@ -1128,9 +1128,15 @@ body {
   font-size: 12px;
   opacity: 0.8;
   transition: all 0.2s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  position: relative;
+  z-index: 10;
 }
 
-.co-action-btn:hover {
+.co-action-btn:hover,
+.co-action-btn:active {
   opacity: 1;
   transform: translateY(-2px);
 }
@@ -1178,6 +1184,11 @@ body {
   border: none;
   cursor: pointer;
   transition: transform 0.2s, filter 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  position: relative;
+  z-index: 10;
+  touch-action: manipulation;
 }
 
 .co-call-btn {
@@ -1191,7 +1202,9 @@ body {
 }
 
 .co-call-btn:hover,
-.co-end-btn:hover {
+.co-end-btn:hover,
+.co-call-btn:active,
+.co-end-btn:active {
   transform: scale(1.05);
   filter: brightness(1.1);
 }
@@ -1229,22 +1242,25 @@ body {
 
   .co-action-btn {
     font-size: 11px;
+    /* Increase touch target size */
+    padding: 8px;
+    min-width: 60px;
   }
 
   .co-icon {
-    width: 42px;
-    height: 42px;
-    font-size: 18px;
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
   }
 
   .co-dialer {
-    gap: 20px;
+    gap: 25px;
   }
 
   .co-call-btn,
   .co-end-btn {
-    width: 60px;
-    height: 60px;
+    width: 68px;
+    height: 68px;
   }
 }
 
@@ -1273,24 +1289,31 @@ body {
   }
 
   .co-actions {
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 25px;
   }
 
   .co-action-btn {
     font-size: 10px;
+    /* Increase touch target size for small screens */
+    padding: 10px 5px;
+    min-width: 55px;
   }
 
   .co-icon {
-    width: 38px;
-    height: 38px;
-    font-size: 16px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .co-dialer {
+    gap: 20px;
   }
 
   .co-call-btn,
   .co-end-btn {
-    width: 55px;
-    height: 55px;
+    width: 64px;
+    height: 64px;
   }
 }
 
@@ -1304,14 +1327,15 @@ body {
   outline: none;
   background-color: #000000;
 }
+
 /* Spatial UI Labels */
 .spatial-label {
   color: white;
   padding: 10px 20px;
-  background: rgba(20, 20, 30, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(20, 20, 30, 0.20);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
@@ -1321,8 +1345,8 @@ body {
   pointer-events: auto;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 255, 0.1);
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 255, 255, 0.1);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
@@ -1331,13 +1355,20 @@ body {
 }
 
 @keyframes floating-label {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .spatial-label:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.25);
   transform: scale(1.1);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }

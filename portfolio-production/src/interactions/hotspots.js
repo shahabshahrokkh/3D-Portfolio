@@ -1,6 +1,7 @@
 import { openProjects } from '../ui/projectsOverlay.js';
 import { triggerWhiteboardAnimation } from '../animations/whiteboardAnim.js';
 import { toggleContactUI } from '../ui/contactOverlay.js';
+import { toggleResumeUI } from '../ui/resumeOverlay.js';
 import { ModelRegistry } from '../utils/registry.js';
 import { focusOnObject } from './cameraTransitions.js';
 import { startPhoneRinging } from '../objects/iphone.js';
@@ -13,14 +14,20 @@ export const HotspotActions = {
   openProjects: () => {
     openProjects();
   },
-  openAbout: () => {
+  openAbout: (object) => {
     showUI('About Me - Coming Soon!');
+    if (object) {
+      focusOnObject(object);
+    }
   },
   openSkills: () => {
     showUI('Skills - Coming Soon!');
   },
-  playCatAnimation: () => {
+  playCatAnimation: (object) => {
     showUI('Meow! 🐱');
+    if (object) {
+      focusOnObject(object);
+    }
     window.dispatchEvent(new CustomEvent('triggerCatAction'));
   },
   openWhiteboard: () => {
@@ -67,6 +74,16 @@ export const HotspotActions = {
   focusShelves: (object) => {
     showUI('🖼️ My Photo Frame');
     focusOnObject(object);
+  },
+  openResume: (object) => {
+    // Focus camera on the resume first
+    if (object) {
+      focusOnObject(object);
+    }
+    // After camera focuses, show the resume UI
+    setTimeout(() => {
+      toggleResumeUI(true);
+    }, 1200); // Wait for camera transition duration
   }
 };
 

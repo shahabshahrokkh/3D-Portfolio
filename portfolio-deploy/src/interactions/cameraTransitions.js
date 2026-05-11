@@ -19,16 +19,27 @@ export function focusOnObject(object) {
   box.getSize(size);
 
   const maxDim = Math.max(size.x, size.y, size.z);
-  
+
   // Target position for controls (look at center of object)
   const targetControl = center.clone();
-  
-  // Target position for camera (offset based on size to frame it nicely)
-  // We'll move the camera slightly up and back from the object's front
-  const offset = new THREE.Vector3(0, maxDim * 0.8, maxDim * 2.0);
-  
-  // Optionally, we could calculate the offset based on current camera direction to maintain angle,
-  // but a fixed offset or an offset rotated by the object's rotation is usually cleaner.
+
+  // Determine camera offset based on object name/type
+  let offset;
+  const objectName = object.name || object.userData?.parentGroup?.name || '';
+
+  if (objectName === 'shelves') {
+    // Wall shelves on left wall - camera should be in front (positive X direction)
+    // Position: [-7.15, 1.5, -3.5], rotation: [0, Math.PI / 2, 0]
+    offset = new THREE.Vector3(maxDim * 2.5, maxDim * 0.5, 0);
+  } else if (objectName === 'cat' || objectName === 'bed') {
+    // Cat bed on left wall - camera should be in front (positive X direction)
+    // Position: [-6.0, 0, 0], rotation: [0, Math.PI / 2, 0]
+    offset = new THREE.Vector3(maxDim * 2.5, maxDim * 0.8, 0);
+  } else {
+    // Default offset - slightly up and back from the object's front
+    offset = new THREE.Vector3(0, maxDim * 0.8, maxDim * 2.0);
+  }
+
   const targetCamera = center.clone().add(offset);
 
   // Tween controls target

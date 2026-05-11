@@ -50,8 +50,7 @@ export const CONFIG = {
       position: [-6.0, 0, 0], // Left wall under shelves
       rotation: [0, Math.PI / 2, 0], // Headboard against left wall
       targetSize: { width: 2.75 },
-      type: 'interactable',
-      action: 'openAbout'
+      type: 'environment' // Changed from interactable to environment - no click action
     },
     cat: {
       url: '/assets/models/sleeping_cat_on_the_table_-_3d_scan.glb',
@@ -124,9 +123,9 @@ export const CONFIG = {
     },
     typewriter: {
       url: '/assets/models/victorian_typewriter.glb',
-      position: [-2.4, 1.30, -7.15], // Inside bookshelf, middle shelf (row 3), right
+      position: [-2.4, 1.27, -7.15], // Inside bookshelf, middle shelf (row 3), right
       rotation: [0, 0, 0], // Face into room
-      targetSize: { width: 0.25 }, // Small size for typewriter
+      targetSize: { width: 0.28 }, // Small size for typewriter
       type: 'environment'
     },
     csharpIcon: {
@@ -145,7 +144,7 @@ export const CONFIG = {
     },
     spaceHelmet: {
       url: '/assets/models/sci_fi_space_helmet.glb',
-      position: [-3.0, 2.10, -7.15], // Inside bookshelf, top shelf (row 5), center
+      position: [-3.0, 0.5, -7.15], // Inside bookshelf, top shelf (row 5), center
       rotation: [0, 0, 0], // Face into room
       targetSize: { height: 0.2 },
       type: 'environment'
@@ -162,6 +161,13 @@ export const CONFIG = {
       position: [-3.0, 1.30, -7.15], // Inside bookshelf, middle shelf (row 3), center
       rotation: [0, 0, 0],             // Face into room
       targetSize: { height: 0.18 },
+      type: 'environment'
+    },
+    threejsIcon: {
+      url: '/assets/models/three-js.glb',
+      position: [-2.5, 0.1, -7.10], // Inside bookshelf, bottom (below row 1), center
+      rotation: [0, 0, 0],             // Face into room
+      targetSize: { height: 0.25 },
       type: 'environment'
     },
     carpet: {
@@ -188,6 +194,14 @@ export const CONFIG = {
       draggable: true,
       castShadow: true,
       receiveShadow: true
+    },
+    resume: {
+      url: '/assets/models/trifold_document_brochure_menu.glb',
+      position: [-5.8, 0.666, -0.3], // On the bed, visible position
+      rotation: [0, +Math.PI / 3, 0], // Lay flat on bed, readable orientation
+      targetSize: { width: 0.4 }, // Good size for visibility
+      type: 'interactable',
+      action: 'openResume'
     }
   },
   colors: {

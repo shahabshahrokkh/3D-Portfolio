@@ -61,12 +61,31 @@ function buildOverlay() {
   // Stop ringing when clicking any action button
   const actionBtns = document.querySelectorAll('.co-action-btn, .co-call-btn, .co-end-btn');
   actionBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    // Add both click and touchend for better mobile support
+    const handleInteraction = (e) => {
       stopPhoneRinging();
-      if (btn.classList.contains('co-end-btn') || btn.classList.contains('co-call-btn')) {
+      if (btn.classList.contains('co-end-btn')) {
+        e.preventDefault();
         toggleContactUI(false);
+      } else if (btn.classList.contains('co-call-btn')) {
+        // Let the link work naturally, but close after a delay
+        setTimeout(() => toggleContactUI(false), 300);
       }
-    });
+      // For action buttons (email, linkedin, github), let them work naturally
+    };
+
+    btn.addEventListener('click', handleInteraction);
+
+    // Add touch support for mobile
+    if ('ontouchstart' in window) {
+      btn.addEventListener('touchend', (e) => {
+        // Prevent ghost clicks
+        if (btn.classList.contains('co-end-btn')) {
+          e.preventDefault();
+          handleInteraction(e);
+        }
+      }, { passive: false });
+    }
   });
 }
 
