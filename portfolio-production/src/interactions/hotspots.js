@@ -44,10 +44,6 @@ export const HotspotActions = {
       window.open(object.userData.url, '_blank');
     }
   },
-  toggleWindow: (object) => {
-    showUI('Window action (future interactive logic)');
-    // Debug removed for production
-  },
   callIphone: (object) => {
     const userData = object?.userData;
     if (!userData || !userData.isActive) return;

@@ -28,7 +28,6 @@ import { initShelves } from './objects/shelves.js';
 import { initCarpet } from './objects/carpet.js';
 import { initMonitor } from './objects/monitor.js';
 import { initMouseKeyboard } from './objects/mouseKeyboard.js';
-import { initWindows } from './objects/window.js';
 import { setHotspotScene } from './interactions/hotspots.js';
 import { initAstronaut, updateAstronaut } from './objects/astronaut.js';
 import { setupEarth, updateEarth } from './scene/earth.js';
@@ -127,7 +126,6 @@ function init() {
     initCarpet(scene);
     initMonitor(scene);
     initMouseKeyboard(scene);
-    initWindows(scene);
     initAstronaut(scene);
 
     // Pass scene to hotspots so whiteboard animation can add canvas plane

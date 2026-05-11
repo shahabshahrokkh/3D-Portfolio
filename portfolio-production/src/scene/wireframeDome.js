@@ -388,13 +388,15 @@ export function createGeodesicFloor(scene) {
     floorGeometry.setIndex(floorIndices);
     floorGeometry.computeVertexNormals();
 
-    // Floor material (same as before)
+    // Floor material - semi-transparent to see space below
     const floorMaterial = new THREE.MeshStandardMaterial({
         color: 0x1a1a24,
         roughness: 0.8,
         metalness: 0.2,
-        transparent: false,
+        transparent: true,
+        opacity: 0.7, // Semi-transparent to see cosmic background
         emissive: new THREE.Color(0x000000),
+        side: THREE.DoubleSide, // Visible from both sides
     });
 
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);

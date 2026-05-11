@@ -39,7 +39,6 @@ import { initResume } from './objects/resume.js';
 import { initCarpet } from './objects/carpet.js';
 import { initMonitor } from './objects/monitor.js';
 import { initMouseKeyboard } from './objects/mouseKeyboard.js';
-import { initWindows } from './objects/window.js';
 import { setHotspotScene } from './interactions/hotspots.js';
 import { initAstronaut, updateAstronaut } from './objects/astronaut.js';
 import { setupEarth, updateEarth } from './scene/earth.js';
@@ -88,7 +87,6 @@ async function init() {
     initMonitor(scene),
     initChair(scene),
     initLaptop(scene),
-    initWindows(scene),
     initCarpet(scene)
   ];
 

@@ -231,23 +231,25 @@ function buildOverlay() {
       }
 
       .ro-actions {
-        gap: 16px;
-        margin-bottom: 20px;
+        gap: 24px; /* Increased gap for easier tapping */
+        margin-bottom: 24px;
       }
 
       .ro-action-btn {
-        font-size: 11px;
+        font-size: 12px;
+        /* Larger touch target */
+        padding: 8px;
       }
 
       .ro-btn-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 18px;
+        width: 56px; /* Larger for easier tapping */
+        height: 56px;
+        font-size: 22px;
       }
 
       .ro-close-btn {
-        width: 64px;
-        height: 64px;
+        width: 72px; /* Larger for easier tapping */
+        height: 72px;
       }
     }
 
@@ -267,9 +269,19 @@ function buildOverlay() {
         height: 380px;
       }
 
+      .ro-actions {
+        gap: 20px;
+      }
+
+      .ro-btn-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+      }
+
       .ro-close-btn {
-        width: 56px;
-        height: 56px;
+        width: 64px;
+        height: 64px;
       }
     }
   `;

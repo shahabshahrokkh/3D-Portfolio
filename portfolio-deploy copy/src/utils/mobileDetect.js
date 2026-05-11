@@ -85,19 +85,19 @@ export function getCameraSettings() {
         mobile: {
             fov: 60,
             position: { x: 5, y: 4, z: 8 },
-            minDistance: 3,
+            minDistance: 0.5, // Much closer for details
             maxDistance: 15
         },
         tablet: {
             fov: 50,
             position: { x: 4.5, y: 3.5, z: 7 },
-            minDistance: 2.5,
+            minDistance: 0.4, // Much closer for details
             maxDistance: 13
         },
         desktop: {
             fov: 45,
             position: { x: 4, y: 3, z: 6 },
-            minDistance: 2,
+            minDistance: 0.3, // Much closer for details
             maxDistance: 12
         }
     };
@@ -115,16 +115,16 @@ export function getControlsSettings() {
     const settings = {
         mobile: {
             dampingFactor: 0.1,
-            rotateSpeed: 0.5,
-            zoomSpeed: 0.8,
-            panSpeed: 0.5,
+            rotateSpeed: 0.5, // Slower for better control
+            zoomSpeed: 1, // Slower zoom
+            panSpeed: 0.3, // Slower panning
             enablePan: true
         },
         tablet: {
             dampingFactor: 0.08,
-            rotateSpeed: 0.7,
-            zoomSpeed: 1.0,
-            panSpeed: 0.7,
+            rotateSpeed: 0.5, // Slower for better control
+            zoomSpeed: 0.8,
+            panSpeed: 0.5, // Slower panning
             enablePan: true
         },
         desktop: {

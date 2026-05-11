@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { createObjectWithPlaceholder } from '../utils/helpers_v2.js';
 import { loadImageAsTexture } from '../utils/pdfTextureLoader.js';
+import { ModelRegistry } from '../utils/registry.js';
 
 export async function initResume(scene) {
     console.log('🔍 [DEBUG] Initializing resume model...');
@@ -36,24 +37,49 @@ export async function initResume(scene) {
                 }
             });
 
-            // Add a spotlight to highlight the resume on the bed
-            const resumeLight = new THREE.SpotLight(0xffffff, 2.5, 3, Math.PI / 6, 0.5, 1);
-            resumeLight.position.set(-5.8, 2.5, 0.3); // Above the resume
-            resumeLight.target.position.set(-5.8, 0.50, 0.3); // Point at resume
-            resumeLight.castShadow = true;
-            resumeLight.shadow.mapSize.width = 512;
-            resumeLight.shadow.mapSize.height = 512;
-            scene.add(resumeLight);
-            scene.add(resumeLight.target);
+            // Add ambient lighting around the resume (not directly on it)
+            // Front light - in front of resume
+            const frontLight = new THREE.PointLight(0xffffff, 1.5, 2.0);
+            frontLight.position.set(-5.8, 0.8, 0.5); // In front
+            scene.add(frontLight);
 
-            // Add a subtle point light for ambient glow
-            const glowLight = new THREE.PointLight(0xffffcc, 1.2, 1.5);
-            glowLight.position.set(-5.8, 0.55, 0.3); // Just above the resume
-            scene.add(glowLight);
+            // Back light - behind resume
+            const backLight = new THREE.PointLight(0xffffee, 1.2, 1.8);
+            backLight.position.set(-5.8, 0.8, -1.0); // Behind
+            scene.add(backLight);
 
-            // Optional: Add a helper to visualize the light (remove in production)
-            // const lightHelper = new THREE.SpotLightHelper(resumeLight);
-            // scene.add(lightHelper);
+            // Left side light
+            const leftLight = new THREE.PointLight(0xffffff, 1.3, 2.0);
+            leftLight.position.set(-5.0, 0.8, -0.3); // Left side
+            scene.add(leftLight);
+
+            // Right side light
+            const rightLight = new THREE.PointLight(0xffffee, 1.3, 2.0);
+            rightLight.position.set(-6.5, 0.8, -0.3); // Right side
+            scene.add(rightLight);
+
+            // Add larger invisible hitbox for easier mobile interaction
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                || window.innerWidth < 768;
+
+            if (isMobile) {
+                // Create a larger hitbox for touch devices
+                const hitboxSize = 0.8; // Larger for easier tapping
+                const hitboxGeo = new THREE.BoxGeometry(hitboxSize, 0.1, hitboxSize);
+                const hitboxMat = new THREE.MeshBasicMaterial({
+                    color: 0xff0000,
+                    transparent: true,
+                    opacity: 0.0, // Invisible
+                    depthWrite: false
+                });
+                const hitbox = new THREE.Mesh(hitboxGeo, hitboxMat);
+                hitbox.position.set(0, 0.05, 0); // Slightly above the resume
+                hitbox.userData.action = 'openResume';
+                hitbox.userData.parentGroup = result;
+                result.add(hitbox);
+                ModelRegistry.registerInteractable(hitbox);
+                console.log('📱 [DEBUG] Mobile hitbox added for easier interaction');
+            }
 
             console.log('✅ [DEBUG] Resume texture and lighting applied');
         } catch (error) {

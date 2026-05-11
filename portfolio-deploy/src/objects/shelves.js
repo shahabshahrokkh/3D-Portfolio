@@ -14,12 +14,8 @@ function createPhotoCanvasTexture(imgSrc) {
       canvas.height = 512;
       const ctx = canvas.getContext('2d');
 
-      // Rotate -90° so a landscape photo becomes portrait in the vertical frame
-      ctx.save();
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
-      ctx.restore();
+      // Draw image directly without rotation (portrait orientation)
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const tex = new THREE.CanvasTexture(canvas);
       tex.colorSpace = THREE.SRGBColorSpace;
@@ -90,7 +86,7 @@ export async function initShelves(scene) {
 
   if (shelves) {
     const photoGlitch = new ShaderGlitchManager(512, 512);
-    const userTexture = await createPhotoCanvasTexture('/assets/_Generated_Image.png');
+    const userTexture = await createPhotoCanvasTexture('/assets/_Generated_Image.webp');
 
     let booksMesh = null;
 
@@ -141,22 +137,8 @@ export async function initShelves(scene) {
         // Position: The local bounding box is axis-aligned, so box.min.y is the entire front face
         photoMesh.position.set(center.x, box.min.y + depthOffset, center.z);
 
-        // Glitch overlay for the photo
-        const glitchMat = new THREE.MeshBasicMaterial({
-          map: photoGlitch.texture,
-          transparent: true,
-          opacity: 0.5,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-          side: THREE.DoubleSide
-        });
-        const overlay = new THREE.Mesh(planeGeo, glitchMat);
-        overlay.scale.copy(photoMesh.scale);
-        overlay.position.set(center.x, box.min.y + depthOffset - 0.002, center.z);
-        overlay.rotation.copy(photoMesh.rotation);
-
+        // Add photo to frame (glitch overlay removed for cleaner look)
         child.add(photoMesh);
-        child.add(overlay);
 
         child.userData.glitchManager = photoGlitch;
         glitchMeshes.push(child);

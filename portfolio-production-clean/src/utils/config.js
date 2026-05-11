@@ -177,14 +177,6 @@ export const CONFIG = {
       targetSize: { width: 4.0 },
       type: 'environment'
     },
-    windowLeft: {
-      url: '/assets/models/window.glb',
-      position: [-7.25, 1.8, 0], // Above the bed (replaces old shelves position)
-      rotation: [0, Math.PI / 2, 0], // Flat against left wall
-      targetSize: { width: 2.0 },
-      type: 'interactable',
-      action: 'toggleWindow'
-    },
     astronaut: {
       url: '/assets/models/drifting_astronaut.glb',
       position: [5.5, 1.5, 2], // Exactly to the right of the back (whiteboard) wall, outside
@@ -201,7 +193,8 @@ export const CONFIG = {
       rotation: [0, +Math.PI / 3, 0], // Lay flat on bed, readable orientation
       targetSize: { width: 0.4 }, // Good size for visibility
       type: 'interactable',
-      action: 'openResume'
+      action: 'openResume',
+      draggable: false // Not draggable, only clickable
     }
   },
   colors: {

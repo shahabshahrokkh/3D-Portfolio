@@ -81,13 +81,13 @@ export function setupScene() {
   controls.enableDamping = true;
   controls.dampingFactor = isMobile ? 0.1 : 0.05;
   controls.maxPolarAngle = Math.PI / 2 - 0.05;
-  controls.minDistance = isMobile ? 3 : 2;
+  controls.minDistance = isMobile ? 0.5 : 0.3; // Much closer zoom for details
   controls.maxDistance = isMobile ? 15 : 12;
 
   if (isMobile) {
-    controls.rotateSpeed = 0.5;
-    controls.zoomSpeed = 0.8;
-    controls.panSpeed = 0.5;
+    controls.rotateSpeed = 0.3; // Slower rotation for better control
+    controls.zoomSpeed = 0.6; // Slower zoom
+    controls.panSpeed = 0.3; // Slower panning
     controls.enablePan = true;
     controls.touches = {
       ONE: THREE.TOUCH.ROTATE,

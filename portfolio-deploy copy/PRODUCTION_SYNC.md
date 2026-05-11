@@ -1,6 +1,6 @@
 # گزارش همگام‌سازی Production
 
-## آخرین به‌روزرسانی: 11 می 2026 - 06:54 AM
+## آخرین به‌روزرسانی: 11 می 2026 - 15:57 PM (به‌روزرسانی سوم)
 
 ### خلاصه عملیات
 
@@ -11,8 +11,8 @@
 | پوشه | تعداد فایل | حجم |
 |------|-----------|-----|
 | پوشه فعلی (portfolio-deploy copy) | 1,754+ فایل | 128+ MB |
-| **portfolio-production** | **120 فایل** | **22.53 MB** |
-| **portfolio-production-clean** | **120 فایل** | **22.53 MB** |
+| **portfolio-production** | **117 فایل** | **15.68 MB** |
+| **portfolio-production-clean** | **117 فایل** | **15.68 MB** |
 
 ### فایل‌های حذف شده از production
 
@@ -23,7 +23,34 @@
 - ❌ پوشه `dist` (فایل‌های build قبلی)
 - ❌ پوشه `scratch` (فایل‌های آزمایشی)
 
-### 🆕 تغییرات جدید (به‌روزرسانی دوم)
+### 🆕 تغییرات جدید (به‌روزرسانی سوم - 15:57 PM)
+
+#### فایل‌های به‌روز شده (14 فایل):
+- ✅ `src/main.js` - به‌روزرسانی کد اصلی
+- ✅ `src/main-mobile-example.js` - بهبود نسخه موبایل
+- ✅ `src/utils/config.js` - تنظیمات جدید
+- ✅ `src/utils/mobileDetect.js` - بهبود تشخیص موبایل
+- ✅ `src/scene/setup.js` - تنظیمات صحنه
+- ✅ `src/scene/wireframeDome.js` - بهبود wireframe
+- ✅ `src/objects/cat.js` - بهبود گربه
+- ✅ `src/objects/iphone.js` - بهبود آیفون
+- ✅ `src/objects/laptop.js` - بهبود لپتاپ
+- ✅ `src/objects/resume.js` - بهبود رزومه
+- ✅ `src/objects/shelves.js` - بهبود قفسه‌ها
+- ✅ `src/ui/resumeOverlay.js` - بهبود اورلی رزومه
+- ✅ `src/interactions/hotspots.js` - بهبود hotspots
+- ✅ `scripts/convert-webp.mjs` - اسکریپت تبدیل WebP
+
+#### فایل جدید اضافه شده:
+- ✅ `src/utils/mobileHitbox.js` - سیستم hitbox موبایل
+
+#### فایل‌های حذف شده:
+- ❌ `public/assets/models/window.glb` (131 KB)
+- ❌ `src/objects/window.js`
+- ❌ `public/assets/models/logo_backup.glb` (28 KB)
+- ❌ `public/assets/models/three-js-original.glb` (6.6 MB)
+
+### 🆕 تغییرات جدید (به‌روزرسانی دوم - 06:54 AM)
 
 #### فایل‌های جدید اضافه شده:
 - ✅ `src/objects/resume.js` - آبجکت رزومه سه‌بعدی
@@ -108,21 +135,40 @@ vercel --prod
 
 ### نتیجه
 
-✨ **نسخه production به‌روز و آماده دیپلوی است**
-- حجم نهایی: **22.53 MB** (افزایش 4 MB برای فیچرهای جدید)
-- تعداد فایل‌ها: **120 فایل** (8 فایل جدید)
+✨ **نسخه production به‌روز و بهینه است**
+- حجم نهایی: **15.68 MB** (بهینه‌سازی 30%)
+- تعداد فایل‌ها: **117 فایل** (حذف فایل‌های غیرضروری)
 - فایل‌های تمیز و بدون توضیحات اضافی
 - تمام تغییرات اخیر اعمال شده
 - آماده برای دیپلوی روی Vercel
 
+**کاهش حجم:**
+- از 22.53 MB به 15.68 MB
+- کاهش 6.85 MB (30%)
+- حذف فایل‌های backup و نسخه‌های اصلی
+
 ### ویژگی‌های جدید اضافه شده:
+
+#### به‌روزرسانی 3 (فعلی):
+1. 📱 **Mobile Hitbox System** - سیستم جدید hitbox برای موبایل
+2. 🔧 **بهبود تشخیص موبایل** - الگوریتم بهتر تشخیص دستگاه
+3. ⚡ **بهینه‌سازی تعاملات** - بهبود پاسخ‌دهی در موبایل
+4. 🧹 **حذف فایل‌های اضافی** - حذف window.glb و window.js
+
+#### به‌روزرسانی 2:
 1. 📄 **Resume 3D** - رزومه سه‌بعدی قابل کلیک روی تخت
 2. 🎨 **Three.js Icon** - آیکون Three.js در قفسه کتاب
 3. 🖼️ **Resume Overlay** - نمایش رزومه در اورلی
 4. 🔧 **PDF Texture Loader** - سیستم لود تکسچر PDF
 
+#### به‌روزرسانی 1:
+1. 🏗️ **Wireframe Dome** - اتاق wireframe کامل
+2. 🎮 **بهبود تعاملات** - سیستم hotspot و raycaster
+3. 🎨 **بهبود UI** - Spatial UI و controls
+4. 📦 **ساختار تمیز** - حذف تمام فایل‌های MD و اضافی
+
 ### پوشه‌های موجود
 
-1. **portfolio-production** - نسخه اصلی production (22.53 MB) ✅
-2. **portfolio-production-clean** - نسخه پشتیبان تمیز (22.53 MB) ✅
-3. **portfolio-deploy copy** - نسخه توسعه با تمام فایل‌های توضیحات (128+ MB)
+1. **portfolio-production** - نسخه اصلی production (15.68 MB - 117 فایل) ✅
+2. **portfolio-production-clean** - نسخه پشتیبان تمیز (15.68 MB - 117 فایل) ✅
+3. **portfolio-deploy copy** - نسخه توسعه با تمام فایل‌های توضیحات (128+ MB) 🔧
